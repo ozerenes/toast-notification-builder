@@ -7,7 +7,15 @@ import vuePrettier from '@vue/eslint-config-prettier'
 
 export default [
   {
-    ignores: ['dist', 'dist-node', 'node_modules', 'coverage', '**/*.tsbuildinfo', '*.cjs'],
+    ignores: [
+      'dist',
+      'dist-node',
+      'node_modules',
+      '.vite',
+      'coverage',
+      '**/*.tsbuildinfo',
+      '*.cjs',
+    ],
   },
   ...defineConfigWithVueTs(
     ...pluginVue.configs['flat/recommended'],
