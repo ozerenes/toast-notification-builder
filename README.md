@@ -1,3 +1,23 @@
+# Toast Notification
+
+Vite + Vue 3 + TypeScript with Pinia and Jest.
+
+## Setup
+
+```bash
+npm install
+```
+
+## Scripts
+
+- `npm run dev` — start dev server
+- `npm run build` — type-check and production build
+- `npm run preview` — preview production build
+- `npm test` — run tests
+- `npm run test:watch` — run tests in watch mode
+
+---
+
 # Development Guide
 
 This project is developed using a feature-based branching strategy.
