@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { computed, reactive } from 'vue'
 import type { NotificationConfig } from '@/domain'
+import { TYPE_DEFAULT_COLORS } from '@/domain/notificationDefaults'
 
-/** Builder form state: NotificationConfig without id (id generated on trigger). */
-export type BuilderFormState = Omit<NotificationConfig, 'id'>
+/** Builder form state: config without id and colors (id at trigger, colors from type). */
+export type BuilderFormState = Omit<NotificationConfig, 'id' | 'backgroundColor' | 'textColor'>
 
 const form = reactive<BuilderFormState>({
   type: 'info',
@@ -11,18 +12,20 @@ const form = reactive<BuilderFormState>({
   message: '',
   duration: 3000,
   position: 'top-right',
-  backgroundColor: '#3b82f6',
-  textColor: '#ffffff',
   showIcon: true,
   showCloseButton: true,
 })
+
+const colors = computed(() => TYPE_DEFAULT_COLORS[form.type])
+
+const isPersistent = computed(() => form.duration === 0)
 </script>
 
 <template>
   <div class="builder-panel">
     <section class="builder-panel__form" aria-label="Notification configuration">
       <p class="builder-panel__placeholder">
-        Configuration — state ready (form controls in next commit). Type: {{ form.type }}
+        State: type={{ form.type }}, persistent={{ isPersistent }}, bg={{ colors.backgroundColor }}
       </p>
     </section>
     <section class="builder-panel__preview" aria-label="Live preview">
