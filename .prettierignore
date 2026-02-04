@@ -1,0 +1,7 @@
+dist
+dist-node
+node_modules
+coverage
+package-lock.json
+*.tsbuildinfo
+*.min.js
