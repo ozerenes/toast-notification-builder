@@ -1,6 +1,6 @@
 /**
  * Toast notification domain types.
-*/
+ */
 
 export type NotificationType = 'success' | 'error' | 'warning' | 'info'
 
