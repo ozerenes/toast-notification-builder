@@ -37,19 +37,6 @@ function onSelect(position: Position) {
 </template>
 
 <style scoped>
-.builder-group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  margin-bottom: var(--space-4);
-}
-
-.builder-group__label {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-muted);
-}
-
 .builder-position-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 60px));

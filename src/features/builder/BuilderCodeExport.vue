@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { COPY_FEEDBACK_MS } from '@/shared/constants'
 
 const props = defineProps<{
   exportCode: string
@@ -18,7 +19,7 @@ const highlightedCodeSegments = computed<CodeSegment[]>(() => {
   const code = props.exportCode
   const segments: CodeSegment[] = []
   const tokenRegex =
-    /\bimport\b|\bconst\b|\baddNotification\b|(\btype|\btitle|\bmessage|\bduration|\bposition|\bbackgroundColor|\btextColor|\bshowIcon|\bshowCloseButton|\banimation)(?=\s*:)|'[^']*'|`[^`]*`|\btrue\b|\bfalse\b|\b\d+\b/g
+    /\bimport\b|\bconst\b|\baddNotification\b|\bcreateNotificationId\b|(\btype|\btitle|\bmessage|\bduration|\bposition|\bbackgroundColor|\btextColor|\bshowIcon|\bshowCloseButton|\banimation)(?=\s*:)|'[^']*'|`[^`]*`|\btrue\b|\bfalse\b|\b\d+\b/g
 
   let lastIndex = 0
   let match: RegExpExecArray | null
@@ -32,7 +33,12 @@ const highlightedCodeSegments = computed<CodeSegment[]>(() => {
     }
 
     let type: CodeTokenType = 'plain'
-    if (matchText === 'import' || matchText === 'const' || matchText === 'addNotification') {
+    if (
+      matchText === 'import' ||
+      matchText === 'const' ||
+      matchText === 'addNotification' ||
+      matchText === 'createNotificationId'
+    ) {
       type = 'keyword'
     } else if (match[1]) {
       type = 'property'
@@ -67,7 +73,7 @@ async function copyToClipboard() {
       copied.value = true
       setTimeout(() => {
         copied.value = false
-      }, 1500)
+      }, COPY_FEEDBACK_MS)
     }
   } catch {
     // ignore clipboard errors silently

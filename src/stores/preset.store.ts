@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import type { NotificationConfig, Preset } from '@/domain'
 import { createLocalStoragePresetStorage } from '@/infrastructure/presetStorage'
+import { createPresetId } from '@/shared/id'
 
 export type { Preset } from '@/domain'
 
@@ -9,16 +10,6 @@ const presetStorage = createLocalStoragePresetStorage()
 
 interface PresetState {
   presets: Preset[]
-}
-
-function createPresetId(): string {
-  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
-    return crypto.randomUUID()
-  }
-
-  const timestamp = Date.now().toString(36)
-  const random = Math.random().toString(36).slice(2, 10)
-  return `preset_${timestamp}_${random}`
 }
 
 function cloneConfig(config: Omit<NotificationConfig, 'id'>): Omit<NotificationConfig, 'id'> {

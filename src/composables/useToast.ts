@@ -1,16 +1,10 @@
 import { useNotificationStore } from '@/stores/notification.store'
+import { createNotificationId } from '@/shared/id'
 import type { NotificationConfig, NotificationType, Position } from '@/domain'
 import { TYPE_DEFAULT_COLORS } from '@/domain'
 
 const DEFAULT_POSITION: Position = 'top-right'
 const DEFAULT_DURATION = 3000
-
-function createId(): string {
-  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
-    return crypto.randomUUID()
-  }
-  return `toast-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
-}
 
 export interface ShowOptions {
   message?: string
@@ -32,7 +26,7 @@ export function useToast(storeOrUndefined?: NotificationStore | null) {
   function show(config: Omit<NotificationConfig, 'id'>): string
   function show(config: NotificationConfig): string
   function show(config: NotificationConfig | Omit<NotificationConfig, 'id'>): string {
-    const id = 'id' in config && config.id ? config.id : createId()
+    const id = 'id' in config && config.id ? config.id : createNotificationId()
     const full: NotificationConfig = { ...config, id } as NotificationConfig
     store.addNotification(full)
     return id

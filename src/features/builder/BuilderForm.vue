@@ -72,6 +72,7 @@ function updateAnimation(value: AnimationType) {
   </div>
 </template>
 
+<style src="@/styles/builder-shared.css"></style>
 <style scoped>
 .builder-form {
   display: flex;
