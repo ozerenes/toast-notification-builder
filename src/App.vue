@@ -4,17 +4,24 @@ import BuilderPanel from '@/components/BuilderPanel.vue'
 
 <template>
   <div class="app">
-    <h1>Toast Notification Builder</h1>
+    <h1 class="app__heading">Toast Notification Builder</h1>
     <BuilderPanel />
   </div>
 </template>
 
 <style scoped>
 .app {
-  padding: 1.5rem;
+  min-height: 100vh;
+  background: var(--builder-bg, #f8fafc);
 }
-.app h1 {
-  margin: 0 0 1rem;
-  font-size: 1.25rem;
+.app__heading {
+  margin: 0;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  color: #1e293b;
+  border-bottom: 1px solid var(--builder-border, #e2e8f0);
+  background-color: #fff;
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-family-sans);
 }
 </style>
