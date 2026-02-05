@@ -47,7 +47,7 @@ function setActiveAnimation(animation: AnimationType) {
   font-weight: var(--font-weight-medium);
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-md);
-  background: #fff;
+  background: var(--color-surface);
   color: var(--color-text);
   cursor: pointer;
   width: 100%;
@@ -62,6 +62,6 @@ function setActiveAnimation(animation: AnimationType) {
 .builder-animation-item--active {
   border-color: var(--color-primary);
   background: var(--color-primary);
-  color: #fff;
+  color: var(--color-bg);
 }
 </style>

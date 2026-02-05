@@ -50,7 +50,7 @@ function onSelect(position: Position) {
   font-weight: var(--font-weight-medium);
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border-subtle);
-  background: #fff;
+  background: var(--color-surface);
   color: var(--color-text);
   cursor: pointer;
   text-align: center;
@@ -59,7 +59,7 @@ function onSelect(position: Position) {
 .builder-position-cell--active {
   border-color: var(--color-primary);
   background: var(--color-primary);
-  color: #fff;
+  color: var(--color-bg);
 }
 
 .builder-position-cell:hover {

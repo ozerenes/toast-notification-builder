@@ -148,7 +148,7 @@ watch(presetName, () => {
 .builder-presets__title {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
-  color: var(--color-text-muted, #64748b);
+  color: var(--color-text-muted);
 }
 
 .builder-presets__list {
@@ -194,7 +194,7 @@ watch(presetName, () => {
 .builder-presets__name {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
-  color: var(--color-text, #1e293b);
+  color: var(--color-text);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -203,7 +203,7 @@ watch(presetName, () => {
 
 .builder-presets__details {
   font-size: var(--font-size-xs);
-  color: var(--color-text-muted, #64748b);
+  color: var(--color-text-muted);
 }
 
 .builder-presets__actions {
@@ -218,21 +218,21 @@ watch(presetName, () => {
   padding: var(--space-2) var(--space-3);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
-  background-color: #fff;
+  background-color: var(--color-surface);
   cursor: pointer;
 }
 
 .builder-presets__button--danger {
-  color: #ef4444;
+  color: var(--color-danger);
 }
 
 .builder-presets__button:hover {
-  background-color: var(--color-surface-muted, #f8fafc);
+  background-color: var(--color-surface-muted);
 }
 
 .builder-presets__empty {
   font-size: var(--font-size-xs);
-  color: var(--color-text-muted, #64748b);
+  color: var(--color-text-muted);
 }
 
 .builder-presets__footer {
@@ -252,20 +252,20 @@ watch(presetName, () => {
   min-width: 0;
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-md);
-  border: 1px solid var(--color-border-subtle, #e2e8f0);
+  border: 1px solid var(--color-border-subtle);
   font-size: var(--font-size-sm);
 }
 
 .builder-presets__input--error {
-  border-color: #ef4444;
+  border-color: var(--color-danger);
 }
 
 .builder-presets__save {
   padding: 0.5rem 1.25rem;
   border-radius: var(--radius-md);
   border: none;
-  background-color: var(--color-primary, #4f46e5);
-  color: #fff;
+  background-color: var(--color-primary);
+  color: var(--color-bg);
   font-size: var(--font-size-xs);
   cursor: pointer;
 }
@@ -278,7 +278,7 @@ watch(presetName, () => {
 .builder-presets__error {
   margin: 0;
   font-size: var(--font-size-xs);
-  color: #ef4444;
+  color: var(--color-danger);
 }
 
 .builder-presets-enter-active,

@@ -69,7 +69,7 @@ const emit = defineEmits<{
 
 .builder-color-wrap__label {
   font-size: var(--font-size-xs);
-  color: var(--color-text-muted, #64748b);
+  color: var(--color-text-muted);
   min-width: 4.5rem;
 }
 
@@ -86,9 +86,9 @@ const emit = defineEmits<{
   height: 26px;
   padding: 0;
   border-radius: var(--radius-md);
-  border: 1px solid var(--color-border-subtle, #e2e8f0);
+  border: 1px solid var(--color-border-subtle);
   cursor: pointer;
-  background: #fff;
+  background: var(--color-surface);
   overflow: hidden;
 }
 
@@ -109,10 +109,10 @@ const emit = defineEmits<{
 .builder-input {
   padding: var(--space-2) var(--space-3);
   font-size: var(--font-size-sm);
-  border: 1px solid var(--color-border-subtle, #e2e8f0);
+  border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-md);
-  color: var(--color-text, #1e293b);
-  background: #fff;
+  color: var(--color-text);
+  background: var(--color-surface);
 }
 
 .builder-input--hex {

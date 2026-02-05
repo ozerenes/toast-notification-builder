@@ -124,7 +124,7 @@ async function copyToClipboard() {
   margin: 0;
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
-  color: var(--color-text-muted, #64748b);
+  color: var(--color-text-muted);
 }
 
 .builder-export__body {
@@ -138,31 +138,31 @@ async function copyToClipboard() {
   margin: 0;
   padding: var(--space-3);
   border-radius: var(--radius-md);
-  background: #1e1e1e;
-  color: #e5e7eb;
+  background: var(--color-code-bg);
+  color: var(--color-code-fg);
   font-size: var(--font-size-xs);
   overflow-x: auto;
   text-wrap: wrap;
 }
 
 .builder-export__code :deep(.builder-export__token--keyword) {
-  color: #569bd5;
+  color: var(--color-code-keyword);
 }
 
 .builder-export__code :deep(.builder-export__token--property) {
-  color: #559cd6;
+  color: var(--color-code-property);
 }
 
 .builder-export__code :deep(.builder-export__token--string) {
-  color: #ce9178;
+  color: var(--color-code-string);
 }
 
 .builder-export__code :deep(.builder-export__token--number) {
-  color: #a5f3fc;
+  color: var(--color-code-number);
 }
 
 .builder-export__code :deep(.builder-export__token--boolean) {
-  color: #7dd3fc;
+  color: var(--color-code-boolean);
 }
 
 .builder-export__copy {
@@ -171,8 +171,8 @@ async function copyToClipboard() {
   right: 0.45rem;
   padding: 0.2rem 0.45rem;
   border-radius: var(--radius-md);
-  border: 1px solid var(--color-border-subtle, #e2e8f0);
-  background: #fff;
+  border: 1px solid var(--color-border-subtle);
+  background: var(--color-surface);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
   cursor: pointer;
@@ -199,8 +199,8 @@ async function copyToClipboard() {
   align-self: flex-start;
   padding: 0.4rem 0.85rem;
   border-radius: var(--radius-md);
-  border: 1px solid var(--color-border-subtle, #e2e8f0);
-  background: #fff;
+  border: 1px solid var(--color-border-subtle);
+  background: var(--color-surface);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
   cursor: pointer;

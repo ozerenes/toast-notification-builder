@@ -20,9 +20,9 @@ import { GlobalToastLayer } from '@/features/toast'
   margin: 0;
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-bold);
-  color: #1e293b;
+  color: var(--color-text);
   border-bottom: 1px solid var(--color-border);
-  background-color: #fff;
+  background-color: var(--color-bg);
   padding: var(--space-3) var(--space-4);
   font-family: var(--font-family-sans);
 }
