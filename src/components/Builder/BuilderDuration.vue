@@ -96,7 +96,7 @@ function setPersistent(value: boolean) {
 .builder-checkbox {
   width: 1.125rem;
   height: 1.125rem;
-  accent-color: var(--color-primary, #4f46e5);
+  accent-color: var(--color-primary);
   cursor: pointer;
 }
 </style>

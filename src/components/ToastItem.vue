@@ -47,6 +47,9 @@ function onClose(id: string) {
         type="button"
         class="toast-item__close"
         aria-label="Close notification"
+        :style="{
+          color: notification.textColor,
+        }"
         @click="onClose(notification.id)"
       >
         ×
@@ -61,7 +64,7 @@ function onClose(id: string) {
   border-radius: var(--radius-md);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   margin-bottom: var(--space-2);
-  min-width: 280px;
+  min-width: 240px;
   max-width: 360px;
 }
 
@@ -103,10 +106,9 @@ function onClose(id: string) {
   font-size: var(--font-size-lg);
   line-height: 1;
   cursor: pointer;
-  opacity: 0.8;
 }
 
 .toast-item__close:hover {
-  opacity: 1;
+  opacity: 0.8;
 }
 </style>

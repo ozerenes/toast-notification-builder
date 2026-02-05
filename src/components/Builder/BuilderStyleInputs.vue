@@ -86,19 +86,37 @@ const emit = defineEmits<{
   min-width: 4.5rem;
 }
 
-.builder-color-input {
-  width: 30px;
-  height: 30px;
-  border: none;
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  background: #fff;
-}
-
 .builder-color-input-wrap {
   display: flex;
   align-items: center;
   gap: var(--space-2);
+}
+
+.builder-color-input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-subtle, #e2e8f0);
+  cursor: pointer;
+  background: #fff;
+  overflow: hidden;
+}
+
+.builder-color-input::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.builder-color-input::-webkit-color-swatch {
+  border: none;
+  border-radius: inherit;
+}
+
+.builder-color-input::-moz-color-swatch {
+  border: none;
+  border-radius: inherit;
 }
 
 .builder-input {

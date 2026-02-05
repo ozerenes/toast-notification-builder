@@ -72,7 +72,7 @@ const emit = defineEmits<{
 .builder-checkbox {
   width: 1.1rem;
   height: 1.1rem;
-  accent-color: var(--color-primary, #4f46e5);
+  accent-color: var(--color-primary);
   cursor: pointer;
   margin: 0;
 }

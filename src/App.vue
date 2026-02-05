@@ -12,14 +12,14 @@ import BuilderPanel from '@/components/BuilderPanel.vue'
 <style scoped>
 .app {
   min-height: 100vh;
-  background: var(--builder-bg, #f8fafc);
+  background: var(--color-bg-secondary);
 }
 .app__heading {
   margin: 0;
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-bold);
   color: #1e293b;
-  border-bottom: 1px solid var(--builder-border, #e2e8f0);
+  border-bottom: 1px solid var(--color-border);
   background-color: #fff;
   padding: var(--space-3) var(--space-4);
   font-family: var(--font-family-sans);
