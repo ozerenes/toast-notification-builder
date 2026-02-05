@@ -1,12 +1,10 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import type { NotificationConfig, Preset } from '@/domain'
-import { createLocalStoragePresetStorage } from '@/infrastructure/presetStorage'
+import { getPresetStorage } from '@/infrastructure/presetStorageProvider'
 import { createPresetId } from '@/shared/id'
 
 export type { Preset } from '@/domain'
-
-const presetStorage = createLocalStoragePresetStorage()
 
 interface PresetState {
   presets: Preset[]
@@ -69,6 +67,7 @@ export const usePresetStore = defineStore('preset', () => {
   }
 
   function loadPresets(): void {
+    const presetStorage = getPresetStorage()
     const raw = presetStorage.load()
 
     if (!Array.isArray(raw)) {
@@ -106,17 +105,17 @@ export const usePresetStore = defineStore('preset', () => {
     }
 
     state.value.presets = [...state.value.presets, preset]
-    presetStorage.save(state.value.presets)
+    getPresetStorage().save(state.value.presets)
   }
 
   function deletePreset(id: string): void {
     state.value.presets = state.value.presets.filter((preset) => preset.id !== id)
-    presetStorage.save(state.value.presets)
+    getPresetStorage().save(state.value.presets)
   }
 
   function clearPresets(): void {
     state.value.presets = []
-    presetStorage.clear()
+    getPresetStorage().clear()
   }
 
   // No automatic loadPresets() here; app bootstrap calls loadPresets() once (see main.ts).
