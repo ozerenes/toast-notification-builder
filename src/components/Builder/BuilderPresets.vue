@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import type { NotificationType, Position, PositionOption } from '@/domain'
+import { ref, computed, watch } from 'vue'
+import type { Position, PositionOption } from '@/domain'
 import { POSITION_OPTIONS, TYPE_DEFAULT_COLORS } from '@/domain'
 import type { Preset } from '@/stores/preset.store'
 
@@ -15,6 +15,7 @@ const emit = defineEmits<{
 }>()
 
 const presetName = ref('')
+const presetError = ref('')
 
 const sortedPresets = computed(() => [...props.presets].sort((a, b) => b.createdAt - a.createdAt))
 
@@ -35,16 +36,36 @@ function getPositionLabel(position: Position): string {
   return option?.name ?? position
 }
 
-function getTypeColor(type: NotificationType): string {
-  return TYPE_DEFAULT_COLORS[type].backgroundColor
+function getPresetColor(config: Preset['config']): string {
+  return config.backgroundColor || TYPE_DEFAULT_COLORS[config.type].backgroundColor
 }
 
 function handleSave() {
   const name = presetName.value.trim()
-  if (!name) return
+  if (!name) {
+    presetError.value = 'Please enter a preset name.'
+    return
+  }
+
+  const exists = props.presets.some(
+    (preset) => preset.name.trim().toLowerCase() === name.toLowerCase()
+  )
+
+  if (exists) {
+    presetError.value = 'A preset with this name already exists.'
+    return
+  }
+
   emit('save', name)
   presetName.value = ''
+  presetError.value = ''
 }
+
+watch(presetName, () => {
+  if (presetError.value) {
+    presetError.value = ''
+  }
+})
 </script>
 
 <template>
@@ -63,7 +84,7 @@ function handleSave() {
         <div class="builder-presets__meta">
           <span
             class="builder-presets__dot"
-            :style="{ backgroundColor: getTypeColor(preset.config.type) }"
+            :style="{ backgroundColor: getPresetColor(preset.config) }"
           />
           <div class="builder-presets__text">
             <div class="builder-presets__name">
@@ -92,15 +113,21 @@ function handleSave() {
     <p v-else class="builder-presets__empty">No presets yet. Configure a toast and save it.</p>
 
     <form class="builder-presets__footer" @submit.prevent="handleSave">
-      <input
-        v-model="presetName"
-        type="text"
-        class="builder-presets__input"
-        placeholder="Preset name..."
-      />
-      <button type="submit" class="builder-presets__save" :disabled="!presetName.trim()">
-        Save
-      </button>
+      <div class="builder-presets__footer-main">
+        <input
+          v-model="presetName"
+          type="text"
+          class="builder-presets__input"
+          :class="{ 'builder-presets__input--error': presetError }"
+          placeholder="Preset name..."
+        />
+        <button type="submit" class="builder-presets__save" :disabled="!presetName.trim()">
+          Save
+        </button>
+      </div>
+      <p v-if="presetError" class="builder-presets__error">
+        {{ presetError }}
+      </p>
     </form>
   </section>
 </template>
@@ -137,9 +164,9 @@ function handleSave() {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-3);
+  padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-md);
-  background-color: var(--color-surface-muted, #f8fafc);
+  background-color: var(--color-bg-secondary);
 }
 
 .builder-presets__meta {
@@ -149,8 +176,8 @@ function handleSave() {
 }
 
 .builder-presets__dot {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 999px;
 }
 
@@ -201,17 +228,27 @@ function handleSave() {
 
 .builder-presets__footer {
   display: flex;
-  gap: var(--space-2);
+  flex-direction: column;
+  gap: 4px;
   margin-top: var(--space-1);
+}
+
+.builder-presets__footer-main {
+  display: flex;
+  gap: var(--space-2);
 }
 
 .builder-presets__input {
   flex: 1;
   min-width: 0;
-  padding: 0.5rem 0.75rem;
+  padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border-subtle, #e2e8f0);
   font-size: var(--font-size-sm);
+}
+
+.builder-presets__input--error {
+  border-color: #ef4444;
 }
 
 .builder-presets__save {
@@ -220,14 +257,19 @@ function handleSave() {
   border: none;
   background-color: var(--color-primary, #4f46e5);
   color: #fff;
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-xs);
   cursor: pointer;
 }
 
 .builder-presets__save:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.builder-presets__error {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: #ef4444;
 }
 
 .builder-presets-enter-active,
