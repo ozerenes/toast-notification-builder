@@ -57,10 +57,10 @@ function onClose(id: string) {
 
 <style scoped>
 .toast-item {
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--space-2);
   min-width: 280px;
   max-width: 360px;
 }
@@ -68,13 +68,13 @@ function onClose(id: string) {
 .toast-item__content {
   display: flex;
   align-items: flex-start;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 .toast-item__icon {
   flex-shrink: 0;
-  font-size: 1rem;
-  line-height: 1.25;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-tight);
 }
 
 .toast-item__text {
@@ -82,16 +82,16 @@ function onClose(id: string) {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: var(--space-1);
 }
 
 .toast-item__title {
-  font-weight: 600;
-  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
 }
 
 .toast-item__message {
-  font-size: 0.8125rem;
+  font-size: var(--font-size-xs);
   opacity: 0.95;
 }
 
@@ -100,7 +100,7 @@ function onClose(id: string) {
   background: none;
   border: none;
   padding: 0;
-  font-size: 1.25rem;
+  font-size: var(--font-size-lg);
   line-height: 1;
   cursor: pointer;
   opacity: 0.8;

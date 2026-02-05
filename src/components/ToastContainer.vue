@@ -2,10 +2,15 @@
 import ToastItem from './ToastItem.vue'
 import type { ActiveNotification, Position } from '@/domain'
 
-defineProps<{
-  notifications: ActiveNotification[]
-  position: Position
-}>()
+withDefaults(
+  defineProps<{
+    notifications: ActiveNotification[]
+    position: Position
+    /** When true, container is positioned inside parent (e.g. preview area) instead of viewport. */
+    contained?: boolean
+  }>(),
+  { contained: false }
+)
 
 const emit = defineEmits<{
   close: [id: string]
@@ -18,6 +23,7 @@ const emit = defineEmits<{
     :class="[
       `toast-container--${position}`,
       position.startsWith('bottom') && 'toast-container--reverse',
+      contained && 'toast-container--contained',
     ]"
   >
     <TransitionGroup name="toast-list" tag="div" class="toast-container__list">
@@ -32,11 +38,18 @@ const emit = defineEmits<{
 </template>
 
 <style scoped>
+/* Normal (sayfa) kullanımda viewport'a sabit */
 .toast-container {
   position: fixed;
   z-index: 1000;
-  padding: 1rem;
+  padding: var(--space-4);
   pointer-events: none;
+}
+
+/* Preview modunda sadece position değişir; top/right/bottom/left aynı kalır */
+.toast-container.toast-container--contained {
+  position: absolute;
+  z-index: 0;
 }
 
 .toast-container__list {
@@ -59,6 +72,12 @@ const emit = defineEmits<{
   right: 0;
 }
 
+.toast-container--top-center {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .toast-container--bottom-left {
   bottom: 0;
   left: 0;
@@ -67,6 +86,12 @@ const emit = defineEmits<{
 .toast-container--bottom-right {
   bottom: 0;
   right: 0;
+}
+
+.toast-container--bottom-center {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 /* TransitionGroup: CSS only */
@@ -84,7 +109,8 @@ const emit = defineEmits<{
 }
 
 .toast-container--bottom-left .toast-list-enter-from,
-.toast-container--bottom-right .toast-list-enter-from {
+.toast-container--bottom-right .toast-list-enter-from,
+.toast-container--bottom-center .toast-list-enter-from {
   transform: translateY(8px);
 }
 
