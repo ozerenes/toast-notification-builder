@@ -281,9 +281,10 @@ watch(presetName, () => {
   color: var(--color-danger);
 }
 
+/* Vue <TransitionGroup> applies these class names to each child; scoped styles still apply. */
 .builder-presets-enter-active,
 .builder-presets-leave-active {
-  transition: all 0.15s ease-out;
+  transition: all var(--builder-transition-duration) var(--builder-transition-ease);
 }
 
 .builder-presets-enter-from,
