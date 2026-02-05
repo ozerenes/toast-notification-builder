@@ -1,39 +1,35 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import type { AnimationType } from './types'
+import { TOAST_ANIMATION_DEFINITIONS } from '@/components/Toast/animations/toastAnimations'
 
-const activeAnimation = ref<'fade' | 'slide' | 'pop'>('fade')
+defineProps<{
+  modelValue: AnimationType
+}>()
 
-function setActiveAnimation(animation: 'fade' | 'slide' | 'pop') {
-  activeAnimation.value = animation
+const emit = defineEmits<{
+  'update:modelValue': [value: AnimationType]
+}>()
+
+const animations = TOAST_ANIMATION_DEFINITIONS
+
+function setActiveAnimation(animation: AnimationType) {
+  emit('update:modelValue', animation)
 }
 </script>
+
 <template>
   <div class="builder-group">
     <span class="builder-group__label">Animations</span>
     <div class="builder-animations">
       <button
+        v-for="animation in animations"
+        :key="animation.id"
         class="builder-animation-item"
-        :class="{ 'builder-animation-item--active': activeAnimation === 'fade' }"
+        :class="{ 'builder-animation-item--active': modelValue === animation.id }"
         type="button"
-        @click="setActiveAnimation('fade')"
+        @click="setActiveAnimation(animation.id)"
       >
-        Fade
-      </button>
-      <button
-        class="builder-animation-item"
-        :class="{ 'builder-animation-item--active': activeAnimation === 'slide' }"
-        type="button"
-        @click="setActiveAnimation('slide')"
-      >
-        Slide
-      </button>
-      <button
-        class="builder-animation-item"
-        :class="{ 'builder-animation-item--active': activeAnimation === 'pop' }"
-        type="button"
-        @click="setActiveAnimation('pop')"
-      >
-        Pop
+        {{ animation.label }}
       </button>
     </div>
   </div>
@@ -49,7 +45,7 @@ function setActiveAnimation(animation: 'fade' | 'slide' | 'pop') {
 .builder-group__label {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
-  color: var(--color-text-muted, #64748b);
+  color: var(--color-text-muted);
 }
 
 .builder-animations {
@@ -61,21 +57,23 @@ function setActiveAnimation(animation: 'fade' | 'slide' | 'pop') {
   padding: var(--space-2) var(--space-3);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
-  border: 1px solid var(--color-border-subtle, #e2e8f0);
+  border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-md);
   background: #fff;
-  color: var(--color-text, #1e293b);
+  color: var(--color-text);
   cursor: pointer;
+  width: 100%;
 }
 
 .builder-animation-item:hover {
-  border-color: var(--color-primary, #4f46e5);
-  background: var(--color-surface-muted, #f8fafc);
+  border-color: var(--color-primary);
+  background: var(--color-bg-secondary);
+  color: var(--color-primary);
 }
 
 .builder-animation-item--active {
-  border-color: var(--color-primary, #4f46e5);
-  background: rgba(124, 58, 237, 0.08);
-  color: var(--color-primary, #4f46e5);
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
 }
 </style>

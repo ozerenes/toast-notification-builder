@@ -1,0 +1,258 @@
+/**
+ * Toast animation presets for Vue <TransitionGroup>.
+ *
+ * Each preset uses only transform + opacity for GPU-friendly performance.
+ * Names are fully namespaced via the `toast-anim-*` prefix to avoid collisions.
+ *
+ * Usage:
+ *   <TransitionGroup :name="animationClass" tag="div">
+ *     …
+ *   </TransitionGroup>
+ *
+ * Where `animationClass` comes from `getToastTransitionName` in `toastAnimations.ts`.
+ */
+
+/* Fade
+ * - Pure opacity fade, no positional change.
+ * - Minimal, non-distracting baseline.
+ */
+.toast-anim-fade-enter-active,
+.toast-anim-fade-leave-active {
+  transition: opacity 180ms var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1));
+}
+
+.toast-anim-fade-enter-from,
+.toast-anim-fade-leave-to {
+  opacity: 0;
+}
+
+.toast-anim-fade-enter-to,
+.toast-anim-fade-leave-from {
+  opacity: 1;
+}
+
+.toast-anim-fade-move {
+  transition: transform 180ms var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1));
+}
+
+/* Slide
+ * - Horizontal slide from the edge with fade.
+ * - Strong directional feel, good for side-stacked toasts.
+ */
+.toast-anim-slide-enter-active,
+.toast-anim-slide-leave-active {
+  transition:
+    opacity 220ms var(--toast-ease-out, cubic-bezier(0.2, 0.8, 0.4, 1)),
+    transform 220ms var(--toast-ease-out, cubic-bezier(0.2, 0.8, 0.4, 1));
+}
+
+.toast-anim-slide-enter-from {
+  opacity: 0;
+  transform: translateX(32px);
+}
+
+.toast-anim-slide-leave-to {
+  opacity: 0;
+  transform: translateX(24px);
+}
+
+.toast-anim-slide-enter-to,
+.toast-anim-slide-leave-from {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.toast-anim-slide-move {
+  transition: transform 220ms var(--toast-ease-out, cubic-bezier(0.2, 0.8, 0.4, 1));
+}
+
+/* Scale
+ * - Depth-focused scale with soft lift.
+ * - Feels like surfacing a card on top of the stack.
+ */
+.toast-anim-scale-enter-active,
+.toast-anim-scale-leave-active {
+  transition:
+    opacity 210ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 210ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toast-anim-scale-enter-from {
+  opacity: 0;
+  transform: translateY(6px) scale(0.88);
+}
+
+.toast-anim-scale-leave-to {
+  opacity: 0;
+  transform: translateY(-4px) scale(0.9);
+}
+
+.toast-anim-scale-enter-to,
+.toast-anim-scale-leave-from {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.toast-anim-scale-move {
+  transition: transform 210ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Bounce
+ * - Vertical bounce with subtle overshoot.
+ * - Implemented with keyframes for better control.
+ */
+.toast-anim-bounce-enter-active {
+  animation: toast-anim-bounce-in 240ms var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1))
+    both;
+}
+
+.toast-anim-bounce-leave-active {
+  animation: toast-anim-bounce-out 200ms var(--toast-ease-in, cubic-bezier(0.4, 0, 1, 1)) both;
+}
+
+.toast-anim-bounce-enter-from,
+.toast-anim-bounce-leave-to {
+  opacity: 0;
+  transform: translateY(18px) scale(0.97);
+}
+
+.toast-anim-bounce-enter-to,
+.toast-anim-bounce-leave-from {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.toast-anim-bounce-move {
+  transition: transform 230ms var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1));
+}
+
+@keyframes toast-anim-bounce-in {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.9);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.02);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes toast-anim-bounce-out {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  40% {
+    opacity: 1;
+    transform: translateY(-4px) scale(0.98);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.9);
+  }
+}
+
+/* Flip
+ * - 3D card flip with depth.
+ * - Uses perspective + rotateX within transform only.
+ */
+.toast-anim-flip-enter-active {
+  animation: toast-anim-flip-in 240ms var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1)) both;
+}
+
+.toast-anim-flip-leave-active {
+  animation: toast-anim-flip-out 200ms var(--toast-ease-in, cubic-bezier(0.4, 0, 1, 1)) both;
+}
+
+.toast-anim-flip-enter-from,
+.toast-anim-flip-leave-to {
+  opacity: 0;
+  transform: perspective(900px) rotateX(-35deg) translateY(8px);
+}
+
+.toast-anim-flip-enter-to,
+.toast-anim-flip-leave-from {
+  opacity: 1;
+  transform: perspective(900px) rotateX(0deg) translateY(0);
+}
+
+.toast-anim-flip-move {
+  transition: transform 230ms var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1));
+}
+
+@keyframes toast-anim-flip-in {
+  0% {
+    opacity: 0;
+    transform: perspective(900px) rotateX(-45deg) translateY(10px);
+  }
+
+  60% {
+    opacity: 1;
+    transform: perspective(900px) rotateX(8deg) translateY(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: perspective(900px) rotateX(0deg) translateY(0);
+  }
+}
+
+@keyframes toast-anim-flip-out {
+  0% {
+    opacity: 1;
+    transform: perspective(900px) rotateX(0deg) translateY(0);
+  }
+
+  40% {
+    opacity: 1;
+    transform: perspective(900px) rotateX(8deg) translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: perspective(900px) rotateX(35deg) translateY(10px);
+  }
+}
+
+/* Respect user motion preferences while keeping layout stable. */
+@media (prefers-reduced-motion: reduce) {
+  .toast-anim-fade-enter-active,
+  .toast-anim-fade-leave-active,
+  .toast-anim-fade-move,
+  .toast-anim-slide-enter-active,
+  .toast-anim-slide-leave-active,
+  .toast-anim-slide-move,
+  .toast-anim-scale-enter-active,
+  .toast-anim-scale-leave-active,
+  .toast-anim-scale-move {
+    transition-duration: 120ms;
+  }
+
+  .toast-anim-bounce-enter-active,
+  .toast-anim-bounce-leave-active,
+  .toast-anim-flip-enter-active,
+  .toast-anim-flip-leave-active {
+    animation-duration: 120ms;
+  }
+
+  .toast-anim-fade-enter-from,
+  .toast-anim-fade-leave-to,
+  .toast-anim-slide-enter-from,
+  .toast-anim-slide-leave-to,
+  .toast-anim-scale-enter-from,
+  .toast-anim-scale-leave-to,
+  .toast-anim-bounce-enter-from,
+  .toast-anim-bounce-leave-to,
+  .toast-anim-flip-enter-from,
+  .toast-anim-flip-leave-to {
+    transform: none;
+  }
+}

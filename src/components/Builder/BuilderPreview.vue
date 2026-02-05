@@ -4,12 +4,14 @@ import ToastContainer from '@/components/ToastContainer.vue'
 import BuilderPresets from './BuilderPresets.vue'
 import type { ActiveNotification, Position } from '@/domain'
 import type { Preset } from '@/stores/preset.store'
+import type { AnimationType } from './types'
 
 const props = defineProps<{
   notifications: ActiveNotification[]
   position: Position
   presets: Preset[]
   exportCode: string
+  animation?: AnimationType
 }>()
 
 const emit = defineEmits<{
@@ -22,31 +24,71 @@ const emit = defineEmits<{
 
 const copied = ref(false)
 
-const highlightedCode = computed(() => {
+type CodeTokenType = 'keyword' | 'property' | 'string' | 'boolean' | 'number' | 'plain'
+
+interface CodeSegment {
+  text: string
+  type: CodeTokenType
+}
+
+const highlightedCodeSegments = computed<CodeSegment[]>(() => {
   const code = props.exportCode
+  const segments: CodeSegment[] = []
 
-  // Escape HTML
-  let html = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  // Match keywords, properties, strings, booleans and numbers
+  const tokenRegex =
+    /\bconst\b|(\btype|\btitle|\bmessage|\bduration|\bposition|\bbackgroundColor|\btextColor|\bshowIcon|\bshowCloseButton|\banimation)(?=\s*:)|'[^']*'|\btrue\b|\bfalse\b|\b\d+\b/g
 
-  // Keywords (const)
-  html = html.replace(/\b(const)\b/g, '<span class="builder-export__token--keyword">$1</span>')
+  let lastIndex = 0
+  let match: RegExpExecArray | null
 
-  // Property names (before :)
-  html = html.replace(
-    /(\btype|\btitle|\bmessage|\bduration|\bposition|\bshowIcon|\bshowCloseButton|\banimation)(?=\s*:)/g,
-    '<span class="builder-export__token--property">$1</span>'
-  )
+  while ((match = tokenRegex.exec(code)) !== null) {
+    const matchStart = match.index
+    const matchText = match[0]
 
-  // Strings ('...')
-  html = html.replace(/'([^']*)'/g, '<span class="builder-export__token--string">\'$1\'</span>')
+    if (matchStart > lastIndex) {
+      segments.push({
+        text: code.slice(lastIndex, matchStart),
+        type: 'plain',
+      })
+    }
 
-  // Booleans
-  html = html.replace(/\b(true|false)\b/g, '<span class="builder-export__token--boolean">$1</span>')
+    let type: CodeTokenType = 'plain'
 
-  // Numbers
-  html = html.replace(/\b(\d+)\b/g, '<span class="builder-export__token--number">$1</span>')
+    if (matchText === 'const') {
+      type = 'keyword'
+    } else if (match[1]) {
+      // Captured property name
+      type = 'property'
+    } else if (matchText.startsWith("'") && matchText.endsWith("'")) {
+      type = 'string'
+    } else if (matchText === 'true' || matchText === 'false') {
+      type = 'boolean'
+    } else if (/^\d+$/.test(matchText)) {
+      // Heuristic: number used as value after a colon (e.g. duration: 3000)
+      const before = code.slice(0, matchStart)
+      const lastColonIndex = before.lastIndexOf(':')
+      if (lastColonIndex !== -1 && /^\s*$/.test(before.slice(lastColonIndex + 1))) {
+        type = 'number'
+      }
+    }
 
-  return html
+    segments.push({
+      text: matchText,
+      type,
+    })
+
+    lastIndex = matchStart + matchText.length
+  }
+
+  if (lastIndex < code.length) {
+    segments.push({
+      text: code.slice(lastIndex),
+      type: 'plain',
+    })
+  }
+
+  return segments
 })
 
 async function copyToClipboard() {
@@ -71,6 +113,7 @@ async function copyToClipboard() {
         :notifications="notifications"
         :position="position"
         contained
+        :animation="props.animation"
         @close="emit('close', $event)"
       />
     </div>
@@ -88,8 +131,29 @@ async function copyToClipboard() {
     <section class="builder-export" aria-label="Code export">
       <h3 class="builder-export__title">Code Export</h3>
       <div class="builder-export__body">
-        <pre class="builder-export__code"><code v-html="highlightedCode"></code></pre>
-        <button type="button" class="builder-export__copy" @click="copyToClipboard">
+        <pre
+          class="builder-export__code"
+        ><code><template v-for="(segment, index) in highlightedCodeSegments" :key="index"><span
+          v-if="segment.type !== 'plain'"
+          :class="{
+            'builder-export__token--keyword': segment.type === 'keyword',
+            'builder-export__token--property': segment.type === 'property',
+            'builder-export__token--string': segment.type === 'string',
+            'builder-export__token--boolean': segment.type === 'boolean',
+            'builder-export__token--number': segment.type === 'number',
+          }"
+        >{{ segment.text }}</span><template v-else>{{ segment.text }}</template></template></code></pre>
+        <button
+          type="button"
+          class="builder-export__copy"
+          :aria-label="copied ? 'Code copied' : 'Copy code'"
+          @click="copyToClipboard"
+        >
+          <span class="builder-export__copy-icon" aria-hidden="true">
+            {{ copied ? '✓' : '⧉' }}
+          </span>
+        </button>
+        <button type="button" class="builder-export__copy-inline" @click="copyToClipboard">
           {{ copied ? 'Copied!' : 'Copy to Clipboard' }}
         </button>
       </div>
@@ -116,9 +180,8 @@ async function copyToClipboard() {
 .builder-preview__action {
   min-height: 36px;
   width: 100%;
-  padding: var(--space-3) var(--space-4);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-xs);
   border: none;
   border-radius: var(--radius-md);
   background: var(--color-primary, #4f46e5);
@@ -136,7 +199,7 @@ async function copyToClipboard() {
 }
 
 .builder-export {
-  margin-top: var(--space-4);
+  margin-top: var(--space-2);
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
@@ -150,6 +213,7 @@ async function copyToClipboard() {
 }
 
 .builder-export__body {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
@@ -187,6 +251,36 @@ async function copyToClipboard() {
 }
 
 .builder-export__copy {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.45rem;
+  padding: 0.2rem 0.45rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-subtle, #e2e8f0);
+  background: #fff;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 120ms ease-out,
+    transform 120ms ease-out;
+}
+
+.builder-export__body:hover .builder-export__copy {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.builder-export__copy-icon {
+  display: inline-block;
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.builder-export__copy-inline {
   align-self: flex-start;
   padding: 0.4rem 0.85rem;
   border-radius: var(--radius-md);

@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { BuilderForm, BuilderPreview, type BuilderFormState } from '@/components/Builder'
+import type { AnimationType } from '@/components/Builder'
 import { useNotificationStore } from '@/stores/notification.store'
 import { usePresetStore } from '@/stores/preset.store'
 import type { ActiveNotification, NotificationConfig } from '@/domain'
@@ -18,6 +19,8 @@ const form = reactive<BuilderFormState>({
   showCloseButton: true,
 })
 
+const animation = ref<AnimationType>('slide')
+
 watch(
   () => form.type,
   (type) => {
@@ -27,7 +30,7 @@ watch(
 )
 
 const previewNotification = computed<ActiveNotification>(() => ({
-  id: 'preview',
+  id: `preview-${animation.value}`,
   createdAt: 0,
   ...form,
 }))
@@ -35,24 +38,42 @@ const previewNotification = computed<ActiveNotification>(() => ({
 const previewNotifications = computed(() => [previewNotification.value])
 
 const exportCode = computed(() => {
-  const { type, title, message, duration, position, showIcon, showCloseButton } = form
+  const {
+    type,
+    title,
+    message,
+    duration,
+    position,
+    backgroundColor,
+    textColor,
+    showIcon,
+    showCloseButton,
+  } = form
 
-  return [
+  const lines = [
     'const notification = {',
     `  type: '${type}',`,
     `  title: '${title || 'Success!'}',`,
     `  message: '${message || 'Your changes have been saved.'}',`,
     `  duration: ${duration},`,
     `  position: '${position}',`,
+    `  backgroundColor: '${backgroundColor}',`,
+    `  textColor: '${textColor}',`,
     `  showIcon: ${showIcon},`,
     `  showCloseButton: ${showCloseButton},`,
-    `  animation: 'slide',`,
+    `  animation: '${animation.value}'`,
     '};',
-  ].join(' ')
+  ]
+
+  return lines.join('\n')
 })
 
 const notificationStore = useNotificationStore()
 const presetStore = usePresetStore()
+
+function onAnimationChange(value: AnimationType) {
+  animation.value = value
+}
 
 function onFormUpdate(patch: BuilderFormState) {
   Object.assign(form, patch)
@@ -96,7 +117,12 @@ function handleDeletePreset(id: string) {
   <div class="builder-panel">
     <section class="builder-panel__config" aria-labelledby="config-heading">
       <h2 id="config-heading" class="builder-panel__heading">Configuration</h2>
-      <BuilderForm :model-value="form" @update:model-value="onFormUpdate" />
+      <BuilderForm
+        :model-value="form"
+        :animation="animation"
+        @update:model-value="onFormUpdate"
+        @update:animation="onAnimationChange"
+      />
     </section>
     <section class="builder-panel__preview" aria-labelledby="preview-heading">
       <h2 id="preview-heading" class="builder-panel__heading">Preview</h2>
@@ -105,6 +131,7 @@ function handleDeletePreset(id: string) {
         :position="form.position"
         :presets="presetStore.presets"
         :export-code="exportCode"
+        :animation="animation"
         @close="onPreviewClose"
         @show-notification="showNotification"
         @save-preset="handleSavePreset"
@@ -122,7 +149,7 @@ function handleDeletePreset(id: string) {
   gap: var(--space-4);
   min-height: 100%;
   padding: var(--space-4);
-  max-width: 1200px;
+  max-width: 1024px;
   margin: 0 auto;
 }
 
@@ -167,7 +194,7 @@ function handleDeletePreset(id: string) {
 
   .builder-panel__preview :deep(.builder-preview__area) {
     flex: 1;
-    min-height: 180px;
+    min-height: 160px;
   }
 }
 </style>
