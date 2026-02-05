@@ -38,7 +38,6 @@ const emit = defineEmits<{
 </template>
 
 <style scoped>
-/* Normal (sayfa) kullanımda viewport'a sabit */
 .toast-container {
   position: fixed;
   z-index: 1000;
@@ -46,7 +45,6 @@ const emit = defineEmits<{
   pointer-events: none;
 }
 
-/* Preview modunda sadece position değişir; top/right/bottom/left aynı kalır */
 .toast-container.toast-container--contained {
   position: absolute;
   z-index: 0;
