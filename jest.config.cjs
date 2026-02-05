@@ -13,6 +13,8 @@ module.exports = {
   },
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
+    '^@vue/test-utils$':
+      '<rootDir>/node_modules/@vue/test-utils/dist/vue-test-utils.cjs.js',
   },
   testMatch: ['**/__tests__/**/*.spec.ts', '**/__tests__/**/*.test.ts'],
   collectCoverageFrom: ['src/**/*.{ts,vue}', '!src/**/*.d.ts', '!src/main.ts'],
