@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import BuilderPanel from '@/components/BuilderPanel.vue'
+import GlobalToastLayer from '@/components/GlobalToastLayer.vue'
 </script>
 
 <template>
   <div class="app">
     <h1 class="app__heading">Toast Notification Builder</h1>
     <BuilderPanel />
+    <GlobalToastLayer />
   </div>
 </template>
 
