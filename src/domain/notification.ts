@@ -33,3 +33,11 @@ export interface NotificationConfig {
 export interface ActiveNotification extends NotificationConfig {
   createdAt: number
 }
+
+/** Preset DTO for persistence (save/load). */
+export interface Preset {
+  id: string
+  name: string
+  config: Omit<NotificationConfig, 'id'>
+  createdAt: number
+}

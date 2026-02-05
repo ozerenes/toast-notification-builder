@@ -20,11 +20,14 @@ export interface ShowOptions {
   showCloseButton?: boolean
 }
 
+export type NotificationStore = ReturnType<typeof useNotificationStore>
+
 /**
  * Composable for toast notifications. Use for show, dismiss, clearAll and type shortcuts.
+ * Accepts optional store for testing or multiple contexts; defaults to useNotificationStore().
  */
-export function useToast() {
-  const store = useNotificationStore()
+export function useToast(storeOrUndefined?: NotificationStore | null) {
+  const store = storeOrUndefined ?? useNotificationStore()
 
   function show(config: Omit<NotificationConfig, 'id'>): string
   function show(config: NotificationConfig): string

@@ -5,7 +5,7 @@ import type { ActiveNotification, Position } from '@/domain'
 import {
   getToastTransitionName,
   type ToastAnimation,
-} from '@/components/Toast/animations/toastAnimations'
+} from './animations/toastAnimations'
 
 const props = withDefaults(
   defineProps<{

@@ -1,66 +1,14 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import type { NotificationConfig } from '@/domain'
+import type { NotificationConfig, Preset } from '@/domain'
+import { createLocalStoragePresetStorage } from '@/infrastructure/presetStorage'
 
-const STORAGE_KEY = 'toast-builder-presets'
+export type { Preset } from '@/domain'
 
-export interface Preset {
-  id: string
-  name: string
-  config: Omit<NotificationConfig, 'id'>
-  createdAt: number
-}
+const presetStorage = createLocalStoragePresetStorage()
 
 interface PresetState {
   presets: Preset[]
-}
-
-interface PresetStorage {
-  load(): unknown
-  save(presets: Preset[]): void
-  clear(): void
-}
-
-const presetStorage: PresetStorage = {
-  load(): unknown {
-    if (typeof window === 'undefined' || typeof window.localStorage === 'undefined') {
-      return null
-    }
-
-    try {
-      const raw = window.localStorage.getItem(STORAGE_KEY)
-      if (!raw) return null
-      return JSON.parse(raw)
-    } catch {
-      // Corrupted or non-JSON data – treat as empty, never throw
-      return null
-    }
-  },
-
-  save(presets: Preset[]): void {
-    if (typeof window === 'undefined' || typeof window.localStorage === 'undefined') {
-      return
-    }
-
-    try {
-      const serialized = JSON.stringify(presets)
-      window.localStorage.setItem(STORAGE_KEY, serialized)
-    } catch {
-      // Swallow storage errors to avoid breaking the app
-    }
-  },
-
-  clear(): void {
-    if (typeof window === 'undefined' || typeof window.localStorage === 'undefined') {
-      return
-    }
-
-    try {
-      window.localStorage.removeItem(STORAGE_KEY)
-    } catch {
-      // Swallow storage errors to avoid breaking the app
-    }
-  },
 }
 
 function createPresetId(): string {

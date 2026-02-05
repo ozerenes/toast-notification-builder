@@ -37,23 +37,6 @@ export const TOAST_ANIMATION_DEFINITIONS: readonly ToastAnimationDefinition[] =
 
 /**
  * Resolve the Vue TransitionGroup `name` value for a given toast animation.
- *
- * Example usage in a component:
- * ```vue
- * <script setup lang="ts">
- * import { computed } from 'vue'
- * import { getToastTransitionName, type ToastAnimation } from './toastAnimations'
- *
- * const selectedAnimation = ref<ToastAnimation>('fade')
- * const animationClass = computed(() => getToastTransitionName(selectedAnimation.value))
- * </script>
- *
- * <template>
- *   <TransitionGroup :name="animationClass" tag="div">
- *     <!-- toast items -->
- *   </TransitionGroup>
- * </template>
- * ```
  */
 export const getToastTransitionName = (animation: ToastAnimation): ToastTransitionName =>
   createTransitionName(animation)

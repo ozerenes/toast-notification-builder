@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import BuilderPanel from '@/components/BuilderPanel.vue'
-import GlobalToastLayer from '@/components/GlobalToastLayer.vue'
+import { BuilderPanel } from '@/features/builder'
+import { GlobalToastLayer } from '@/features/toast'
 </script>
 
 <template>
