@@ -14,12 +14,13 @@ const { activeNotifications } = storeToRefs(store)
 
 const notificationsByPosition = computed(() => {
   const byPosition = new Map<string, ActiveNotification[]>()
-  const list = activeNotifications.value ?? []
   for (const opt of POSITION_OPTIONS) {
-    byPosition.set(
-      opt.value,
-      list.filter((n) => n.position === opt.value)
-    )
+    byPosition.set(opt.value, [])
+  }
+  const list = activeNotifications.value ?? []
+  for (const n of list) {
+    const bucket = byPosition.get(n.position)
+    if (bucket) bucket.push(n)
   }
   return byPosition
 })
