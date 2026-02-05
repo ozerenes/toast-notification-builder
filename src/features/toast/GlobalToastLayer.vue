@@ -7,6 +7,8 @@ import type { ActiveNotification } from '@/domain'
 import { POSITION_OPTIONS } from '@/domain'
 import type { ToastAnimation } from './animations/toastAnimations'
 
+const DEFAULT_ANIMATION: ToastAnimation = 'slide'
+
 const store = useNotificationStore()
 const { activeNotifications } = storeToRefs(store)
 
@@ -22,11 +24,15 @@ const notificationsByPosition = computed(() => {
   return byPosition
 })
 
-function animationForPosition(position: string): ToastAnimation {
-  const list = notificationsByPosition.value.get(position) ?? []
-  const first = list[0]
-  return (first?.animation as ToastAnimation) ?? 'slide'
-}
+const animationByPosition = computed(() => {
+  const map = new Map<string, ToastAnimation>()
+  for (const opt of POSITION_OPTIONS) {
+    const list = notificationsByPosition.value.get(opt.value) ?? []
+    const first = list[0]
+    map.set(opt.value, (first?.animation as ToastAnimation) ?? DEFAULT_ANIMATION)
+  }
+  return map
+})
 </script>
 
 <template>
@@ -35,7 +41,7 @@ function animationForPosition(position: string): ToastAnimation {
     :key="opt.value"
     :notifications="notificationsByPosition.get(opt.value) ?? []"
     :position="opt.value"
-    :animation="animationForPosition(opt.value)"
+    :animation="animationByPosition.get(opt.value) ?? DEFAULT_ANIMATION"
     @close="store.removeNotification"
   />
 </template>

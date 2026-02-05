@@ -71,13 +71,21 @@ body {
   --color-code-boolean: #7dd3fc;
 
   /* Toast motion tokens */
-  --toast-duration-enter: 260ms;
+  --toast-duration-enter: 220ms;
+  --toast-duration-enter-short: 180ms;
+  --toast-duration-enter-long: 240ms;
   --toast-duration-leave: 200ms;
+  --toast-duration-move: 220ms;
   --toast-ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
   --toast-ease-in: cubic-bezier(0.4, 0, 1, 1);
   --toast-slide-distance: 32px;
   --toast-lift-distance: 10px;
   --toast-pop-scale: 0.85;
+  --toast-duration-reduced-motion: 120ms;
+
+  /* Builder UI transitions (e.g. preset list) */
+  --builder-transition-duration: 0.15s;
+  --builder-transition-ease: ease-out;
 }
 
 /* Optional: extend with [data-theme="dark"] { ... } to override tokens for dark mode */
