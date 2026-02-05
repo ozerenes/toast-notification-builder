@@ -1,15 +1,21 @@
 <script setup lang="ts">
 import ToastContainer from '@/components/ToastContainer.vue'
+import BuilderPresets from './BuilderPresets.vue'
 import type { ActiveNotification, Position } from '@/domain'
+import type { Preset } from '@/stores/preset.store'
 
 defineProps<{
   notifications: ActiveNotification[]
   position: Position
+  presets: Preset[]
 }>()
 
 const emit = defineEmits<{
   close: [id: string]
   showNotification: []
+  savePreset: [name: string]
+  loadPreset: [id: string]
+  deletePreset: [id: string]
 }>()
 </script>
 
@@ -26,6 +32,13 @@ const emit = defineEmits<{
     <button type="button" class="builder-preview__action" @click="emit('showNotification')">
       Show Notification
     </button>
+
+    <BuilderPresets
+      :presets="presets"
+      @save="emit('savePreset', $event)"
+      @load="emit('loadPreset', $event)"
+      @delete="emit('deletePreset', $event)"
+    />
   </div>
 </template>
 

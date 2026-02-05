@@ -2,6 +2,7 @@
 import { computed, reactive, watch } from 'vue'
 import { BuilderForm, BuilderPreview, type BuilderFormState } from '@/components/Builder'
 import { useNotificationStore } from '@/stores/notification.store'
+import { usePresetStore } from '@/stores/preset.store'
 import type { ActiveNotification, NotificationConfig } from '@/domain'
 import { TYPE_DEFAULT_COLORS } from '@/domain'
 
@@ -34,6 +35,7 @@ const previewNotification = computed<ActiveNotification>(() => ({
 const previewNotifications = computed(() => [previewNotification.value])
 
 const notificationStore = useNotificationStore()
+const presetStore = usePresetStore()
 
 function onFormUpdate(patch: BuilderFormState) {
   Object.assign(form, patch)
@@ -51,6 +53,26 @@ function showNotification() {
   const config: NotificationConfig = { ...form, id }
   notificationStore.addNotification(config)
 }
+
+function handleSavePreset(name: string) {
+  const trimmed = name.trim()
+  if (!trimmed) return
+
+  const config: Omit<NotificationConfig, 'id'> = { ...form }
+  presetStore.savePreset(trimmed, config)
+}
+
+function handleLoadPreset(id: string) {
+  const preset = presetStore.getPresetById(id)
+  if (!preset) return
+
+  // Apply config into the builder form without mutating the preset
+  Object.assign(form, preset.config)
+}
+
+function handleDeletePreset(id: string) {
+  presetStore.deletePreset(id)
+}
 </script>
 
 <template>
@@ -64,8 +86,12 @@ function showNotification() {
       <BuilderPreview
         :notifications="previewNotifications"
         :position="form.position"
+        :presets="presetStore.presets"
         @close="onPreviewClose"
         @show-notification="showNotification"
+        @save-preset="handleSavePreset"
+        @load-preset="handleLoadPreset"
+        @delete-preset="handleDeletePreset"
       />
     </section>
   </div>
