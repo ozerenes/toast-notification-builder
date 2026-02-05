@@ -7,6 +7,8 @@ import BuilderTitleMessage from './BuilderTitleMessage.vue'
 import BuilderTypePills from './BuilderTypePills.vue'
 import BuilderAnimations from './BuilderAnimations.vue'
 import type { AnimationType, BuilderFormState } from './types'
+import { TYPE_DEFAULT_COLORS } from '@/domain'
+import type { NotificationType } from '@/domain'
 
 const props = defineProps<{
   modelValue: BuilderFormState
@@ -21,6 +23,16 @@ function update<K extends keyof BuilderFormState>(key: K, value: BuilderFormStat
   emit('update:modelValue', { ...props.modelValue, [key]: value })
 }
 
+function updateType(type: NotificationType) {
+  const colors = TYPE_DEFAULT_COLORS[type]
+  emit('update:modelValue', {
+    ...props.modelValue,
+    type,
+    backgroundColor: colors.backgroundColor,
+    textColor: colors.textColor,
+  })
+}
+
 function updateAnimation(value: AnimationType) {
   emit('update:animation', value)
 }
@@ -28,7 +40,7 @@ function updateAnimation(value: AnimationType) {
 
 <template>
   <div class="builder-form">
-    <BuilderTypePills :model-value="modelValue.type" @update:model-value="update('type', $event)" />
+    <BuilderTypePills :model-value="modelValue.type" @update:model-value="updateType" />
     <BuilderTitleMessage
       :title="modelValue.title"
       :message="modelValue.message"

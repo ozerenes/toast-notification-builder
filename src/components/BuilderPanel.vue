@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { BuilderForm, BuilderPreview, type BuilderFormState } from '@/components/Builder'
 import type { AnimationType } from '@/components/Builder'
 import { useNotificationStore } from '@/stores/notification.store'
@@ -7,7 +7,7 @@ import { usePresetStore } from '@/stores/preset.store'
 import type { ActiveNotification, NotificationConfig } from '@/domain'
 import { TYPE_DEFAULT_COLORS } from '@/domain'
 
-const form = reactive<BuilderFormState>({
+const form = ref<BuilderFormState>({
   type: 'info',
   title: '',
   message: '',
@@ -21,18 +21,10 @@ const form = reactive<BuilderFormState>({
 
 const animation = ref<AnimationType>('slide')
 
-watch(
-  () => form.type,
-  (type) => {
-    form.backgroundColor = TYPE_DEFAULT_COLORS[type].backgroundColor
-    form.textColor = TYPE_DEFAULT_COLORS[type].textColor
-  }
-)
-
 const previewNotification = computed<ActiveNotification>(() => ({
   id: `preview-${animation.value}`,
   createdAt: 0,
-  ...form,
+  ...form.value,
 }))
 
 const previewNotifications = computed(() => [previewNotification.value])
@@ -48,7 +40,7 @@ const exportCode = computed(() => {
     textColor,
     showIcon,
     showCloseButton,
-  } = form
+  } = form.value
 
   const lines = [
     'const notification = {',
@@ -75,8 +67,8 @@ function onAnimationChange(value: AnimationType) {
   animation.value = value
 }
 
-function onFormUpdate(patch: BuilderFormState) {
-  Object.assign(form, patch)
+function onFormUpdate(patch: Partial<BuilderFormState>) {
+  form.value = { ...form.value, ...patch }
 }
 
 function onPreviewClose() {
@@ -88,7 +80,7 @@ function showNotification() {
     typeof crypto !== 'undefined' && crypto.randomUUID
       ? crypto.randomUUID()
       : `toast-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
-  const config: NotificationConfig = { ...form, id }
+  const config: NotificationConfig = { ...form.value, id, animation: animation.value }
   notificationStore.addNotification(config)
 }
 
@@ -96,16 +88,43 @@ function handleSavePreset(name: string) {
   const trimmed = name.trim()
   if (!trimmed) return
 
-  const config: Omit<NotificationConfig, 'id'> = { ...form }
+  const config: Omit<NotificationConfig, 'id'> = { ...form.value, animation: animation.value }
   presetStore.savePreset(trimmed, config)
 }
 
-function handleLoadPreset(id: string) {
+function buildFormStateFromPreset(config: Omit<NotificationConfig, 'id'>): BuilderFormState {
+  const {
+    type,
+    title,
+    message,
+    duration,
+    position,
+    backgroundColor,
+    textColor,
+    showIcon,
+    showCloseButton,
+  } = config
+  return {
+    type,
+    title,
+    message,
+    duration,
+    position,
+    backgroundColor,
+    textColor,
+    showIcon,
+    showCloseButton,
+  }
+}
+
+function handleLoadPreset(id: string): void {
   const preset = presetStore.getPresetById(id)
   if (!preset) return
 
-  // Apply config into the builder form without mutating the preset
-  Object.assign(form, preset.config)
+  form.value = buildFormStateFromPreset(preset.config)
+  if (preset.config.animation != null) {
+    animation.value = preset.config.animation
+  }
 }
 
 function handleDeletePreset(id: string) {

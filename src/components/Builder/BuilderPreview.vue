@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import ToastContainer from '@/components/ToastContainer.vue'
 import BuilderPresets from './BuilderPresets.vue'
+import { useNotificationStore } from '@/stores/notification.store'
 import type { ActiveNotification, Position } from '@/domain'
 import type { Preset } from '@/stores/preset.store'
 import type { AnimationType } from './types'
@@ -22,7 +23,26 @@ const emit = defineEmits<{
   deletePreset: [id: string]
 }>()
 
+const notificationStore = useNotificationStore()
 const copied = ref(false)
+
+function clearAllNotifications() {
+  notificationStore.clearAll()
+}
+
+function showNotification() {
+  const preview = props.notifications[0]
+  if (!preview) return
+  const id =
+    typeof crypto !== 'undefined' && crypto.randomUUID
+      ? crypto.randomUUID()
+      : `toast-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
+  notificationStore.addNotification({
+    ...preview,
+    id,
+    animation: props.animation ?? 'slide',
+  })
+}
 
 type CodeTokenType = 'keyword' | 'property' | 'string' | 'boolean' | 'number' | 'plain'
 
@@ -117,9 +137,18 @@ async function copyToClipboard() {
         @close="emit('close', $event)"
       />
     </div>
-    <button type="button" class="builder-preview__action" @click="emit('showNotification')">
-      Show Notification
-    </button>
+    <div class="builder-preview__actions">
+      <button type="button" class="builder-preview__action" @click="showNotification">
+        Show Notification
+      </button>
+      <button
+        type="button"
+        class="builder-preview__action builder-preview__action--danger"
+        @click="clearAllNotifications"
+      >
+        Clear Notifications
+      </button>
+    </div>
 
     <BuilderPresets
       :presets="presets"
@@ -196,6 +225,14 @@ async function copyToClipboard() {
 
 .builder-preview__action:active {
   transform: translateY(1px);
+}
+
+.builder-preview__action--danger {
+  background: #ef4444;
+}
+
+.builder-preview__action--danger:hover {
+  background: #b91c1c;
 }
 
 .builder-export {
@@ -289,5 +326,11 @@ async function copyToClipboard() {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
   cursor: pointer;
+}
+
+.builder-preview__actions {
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-2);
 }
 </style>
