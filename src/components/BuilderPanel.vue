@@ -34,6 +34,23 @@ const previewNotification = computed<ActiveNotification>(() => ({
 
 const previewNotifications = computed(() => [previewNotification.value])
 
+const exportCode = computed(() => {
+  const { type, title, message, duration, position, showIcon, showCloseButton } = form
+
+  return [
+    'const notification = {',
+    `  type: '${type}',`,
+    `  title: '${title || 'Success!'}',`,
+    `  message: '${message || 'Your changes have been saved.'}',`,
+    `  duration: ${duration},`,
+    `  position: '${position}',`,
+    `  showIcon: ${showIcon},`,
+    `  showCloseButton: ${showCloseButton},`,
+    `  animation: 'slide',`,
+    '};',
+  ].join(' ')
+})
+
 const notificationStore = useNotificationStore()
 const presetStore = usePresetStore()
 
@@ -87,6 +104,7 @@ function handleDeletePreset(id: string) {
         :notifications="previewNotifications"
         :position="form.position"
         :presets="presetStore.presets"
+        :export-code="exportCode"
         @close="onPreviewClose"
         @show-notification="showNotification"
         @save-preset="handleSavePreset"
@@ -149,7 +167,7 @@ function handleDeletePreset(id: string) {
 
   .builder-panel__preview :deep(.builder-preview__area) {
     flex: 1;
-    min-height: 200px;
+    min-height: 180px;
   }
 }
 </style>

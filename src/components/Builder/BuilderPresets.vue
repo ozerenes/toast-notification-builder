@@ -129,7 +129,7 @@ function handleSave() {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  max-height: 170px;
+  max-height: 160px;
   overflow-y: auto;
 }
 
@@ -161,7 +161,7 @@ function handleSave() {
 }
 
 .builder-presets__name {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
   color: var(--color-text, #1e293b);
 }
