@@ -5,9 +5,7 @@ export const PRESET_VALIDATION = {
   DUPLICATE_NAME: 'A preset with this name already exists.',
 } as const
 
-export type PresetNameValidation =
-  | { valid: true; name: string }
-  | { valid: false; error: string }
+export type PresetNameValidation = { valid: true; name: string } | { valid: false; error: string }
 
 /**
  * Validates preset name before save. Single place for preset name rules (trim, empty, duplicate).

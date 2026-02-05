@@ -17,7 +17,10 @@ app.use(pinia)
 app.config.errorHandler = (err, _instance, info) => {
   console.error('[Vue error]', err, info)
   try {
-    useToast().showError('Something went wrong', 'An unexpected error occurred. Please refresh the page.')
+    useToast().showError(
+      'Something went wrong',
+      'An unexpected error occurred. Please refresh the page.'
+    )
   } catch {
     // Toast may not be available (e.g. before mount); ignore
   }

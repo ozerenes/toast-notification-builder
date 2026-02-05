@@ -85,7 +85,9 @@ async function copyToClipboard() {
   <section class="builder-export" aria-label="Code export">
     <h3 class="builder-export__title">Code Export</h3>
     <div class="builder-export__body">
-      <pre class="builder-export__code"><code><template v-for="(segment, index) in highlightedCodeSegments" :key="index"><span
+      <pre
+        class="builder-export__code"
+      ><code><template v-for="(segment, index) in highlightedCodeSegments" :key="index"><span
         v-if="segment.type !== 'plain'"
         :class="{
           'builder-export__token--keyword': segment.type === 'keyword',
