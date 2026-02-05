@@ -30,20 +30,6 @@ function clearAllNotifications() {
   notificationStore.clearAll()
 }
 
-function showNotification() {
-  const preview = props.notifications[0]
-  if (!preview) return
-  const id =
-    typeof crypto !== 'undefined' && crypto.randomUUID
-      ? crypto.randomUUID()
-      : `toast-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
-  notificationStore.addNotification({
-    ...preview,
-    id,
-    animation: props.animation ?? 'slide',
-  })
-}
-
 type CodeTokenType = 'keyword' | 'property' | 'string' | 'boolean' | 'number' | 'plain'
 
 interface CodeSegment {
@@ -57,7 +43,7 @@ const highlightedCodeSegments = computed<CodeSegment[]>(() => {
 
   // Match keywords, properties, strings, booleans and numbers
   const tokenRegex =
-    /\bconst\b|(\btype|\btitle|\bmessage|\bduration|\bposition|\bbackgroundColor|\btextColor|\bshowIcon|\bshowCloseButton|\banimation)(?=\s*:)|'[^']*'|\btrue\b|\bfalse\b|\b\d+\b/g
+    /\bimport\b|\bconst\b|\baddNotification\b|(\btype|\btitle|\bmessage|\bduration|\bposition|\bbackgroundColor|\btextColor|\bshowIcon|\bshowCloseButton|\banimation)(?=\s*:)|'[^']*'|`[^`]*`|\btrue\b|\bfalse\b|\b\d+\b/g
 
   let lastIndex = 0
   let match: RegExpExecArray | null
@@ -75,12 +61,15 @@ const highlightedCodeSegments = computed<CodeSegment[]>(() => {
 
     let type: CodeTokenType = 'plain'
 
-    if (matchText === 'const') {
+    if (matchText === 'import' || matchText === 'const' || matchText === 'addNotification') {
       type = 'keyword'
     } else if (match[1]) {
       // Captured property name
       type = 'property'
-    } else if (matchText.startsWith("'") && matchText.endsWith("'")) {
+    } else if (
+      (matchText.startsWith("'") && matchText.endsWith("'")) ||
+      (matchText.startsWith('`') && matchText.endsWith('`'))
+    ) {
       type = 'string'
     } else if (matchText === 'true' || matchText === 'false') {
       type = 'boolean'
@@ -138,7 +127,7 @@ async function copyToClipboard() {
       />
     </div>
     <div class="builder-preview__actions">
-      <button type="button" class="builder-preview__action" @click="showNotification">
+      <button type="button" class="builder-preview__action" @click="emit('showNotification')">
         Show Notification
       </button>
       <button

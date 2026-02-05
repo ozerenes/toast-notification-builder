@@ -22,9 +22,13 @@ function onSelect(position: Position) {
         v-for="option in POSITION_OPTIONS"
         :key="option.value"
         type="button"
+        role="radio"
+        :aria-checked="modelValue === option.value"
         class="builder-position-cell"
         :class="{ 'builder-position-cell--active': modelValue === option.value }"
         @click="onSelect(option.value)"
+        @keydown.enter.prevent="onSelect(option.value)"
+        @keydown.space.prevent="onSelect(option.value)"
       >
         {{ option.label }}
       </button>

@@ -115,6 +115,7 @@ function isValidPreset(value: unknown): value is Preset {
   if (typeof cfg.duration !== 'number') return false
   if (typeof cfg.showIcon !== 'boolean') return false
   if (typeof cfg.showCloseButton !== 'boolean') return false
+  if (cfg.animation !== undefined && typeof cfg.animation !== 'string') return false
 
   return true
 }

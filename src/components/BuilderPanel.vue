@@ -42,8 +42,14 @@ const exportCode = computed(() => {
     showCloseButton,
   } = form.value
 
+  const idSnippet =
+    "typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `toast-${Date.now()}`"
   const lines = [
-    'const notification = {',
+    "import { useNotificationStore } from '@/stores/notification.store'",
+    '',
+    'const notificationStore = useNotificationStore()',
+    'notificationStore.addNotification({',
+    `  id: ${idSnippet},`,
     `  type: '${type}',`,
     `  title: '${title || 'Success!'}',`,
     `  message: '${message || 'Your changes have been saved.'}',`,
@@ -53,8 +59,8 @@ const exportCode = computed(() => {
     `  textColor: '${textColor}',`,
     `  showIcon: ${showIcon},`,
     `  showCloseButton: ${showCloseButton},`,
-    `  animation: '${animation.value}'`,
-    '};',
+    `  animation: '${animation.value}',`,
+    '})',
   ]
 
   return lines.join('\n')

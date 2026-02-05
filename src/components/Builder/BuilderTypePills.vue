@@ -13,11 +13,13 @@ const emit = defineEmits<{
 <template>
   <div class="builder-group">
     <span class="builder-group__label">Type</span>
-    <div class="builder-type-pills" role="group" aria-label="Notification type">
+    <div class="builder-type-pills" role="radiogroup" aria-label="Notification type">
       <button
         v-for="t in NOTIFICATION_TYPE_OPTIONS"
         :key="t.value"
         type="button"
+        role="radio"
+        :aria-checked="modelValue === t.value"
         class="builder-pill"
         :class="{ 'builder-pill--active': modelValue === t.value }"
         :style="
@@ -29,6 +31,8 @@ const emit = defineEmits<{
             : undefined
         "
         @click="emit('update:modelValue', t.value)"
+        @keydown.enter.prevent="emit('update:modelValue', t.value)"
+        @keydown.space.prevent="emit('update:modelValue', t.value)"
       >
         <span class="builder-pill__icon" aria-hidden="true">{{ t.icon }}</span>
         {{ t.label }}
