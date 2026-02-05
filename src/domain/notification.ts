@@ -12,6 +12,9 @@ export type Position =
   | 'bottom-right'
   | 'bottom-center'
 
+/** Animation name for toast enter/leave (must match ToastAnimation in UI). */
+export type NotificationAnimation = 'fade' | 'slide' | 'scale' | 'bounce' | 'flip'
+
 export interface NotificationConfig {
   id: string
   type: NotificationType
@@ -23,6 +26,8 @@ export interface NotificationConfig {
   textColor: string
   showIcon: boolean
   showCloseButton: boolean
+  /** Optional; defaults to 'slide' when not provided. */
+  animation?: NotificationAnimation
 }
 
 export interface ActiveNotification extends NotificationConfig {

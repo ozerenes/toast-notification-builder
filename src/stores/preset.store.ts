@@ -124,11 +124,9 @@ export const usePresetStore = defineStore('preset', () => {
 
   const presets = computed(() => state.value.presets)
 
-  const getPresetById = computed(
-    () =>
-      (id: string): Preset | undefined =>
-        state.value.presets.find((preset) => preset.id === id)
-  )
+  function getPresetById(id: string): Preset | undefined {
+    return state.value.presets.find((preset) => preset.id === id)
+  }
 
   function loadPresets(): void {
     const raw = presetStorage.load()
