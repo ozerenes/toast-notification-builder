@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import type { Position, PositionOption } from '@/domain'
+import type { Position, PositionOption, Preset } from '@/domain'
 import { POSITION_OPTIONS, TYPE_DEFAULT_COLORS } from '@/domain'
-import type { Preset } from '@/stores/preset.store'
 
 const props = defineProps<{
   presets: Preset[]

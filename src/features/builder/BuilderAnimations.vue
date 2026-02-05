@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AnimationType } from './types'
-import { TOAST_ANIMATION_DEFINITIONS } from '@/components/Toast/animations/toastAnimations'
+import { TOAST_ANIMATION_DEFINITIONS } from '@/features/toast/animations/toastAnimations'
 
 defineProps<{
   modelValue: AnimationType

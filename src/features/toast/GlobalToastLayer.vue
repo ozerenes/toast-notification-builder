@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
-import ToastContainer from '@/components/ToastContainer.vue'
+import ToastContainer from './ToastContainer.vue'
 import { useNotificationStore } from '@/stores/notification.store'
 import type { ActiveNotification } from '@/domain'
 import { POSITION_OPTIONS } from '@/domain'
-import type { ToastAnimation } from '@/components/Toast/animations/toastAnimations'
+import type { ToastAnimation } from './animations/toastAnimations'
 
 const store = useNotificationStore()
 const { activeNotifications } = storeToRefs(store)

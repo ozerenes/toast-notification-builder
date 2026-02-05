@@ -32,14 +32,16 @@ This document describes the high-level architecture and design decisions of the 
 
 ```
 src/
-├── domain/                 # Types and constants (framework-agnostic)
+├── domain/                   # Types and constants (framework-agnostic)
 │   ├── index.ts
-│   ├── notification.ts
+│   ├── notification.ts       # NotificationConfig, ActiveNotification, Preset
 │   ├── notificationDefaults.ts
 │   └── notificationOptions.ts
+├── infrastructure/           # Persistence adapters (injectable for tests)
+│   └── presetStorage.ts      # PresetStorage interface + createLocalStoragePresetStorage()
 ├── stores/
-│   ├── notification.store.ts   # Active toasts + timeouts
-│   ├── preset.store.ts         # Presets + localStorage
+│   ├── notification.store.ts # Active toasts + timeouts
+│   ├── preset.store.ts       # Presets; uses infrastructure presetStorage
 │   └── __tests__/
 ├── composables/
 │   ├── index.ts
@@ -72,7 +74,7 @@ src/
 
 - **State ownership**: `BuilderPanel` holds form state in a single `ref<BuilderFormState>` (and optional `ref<AnimationType>` for preview). No Pinia for builder form.
 - **Form → Store**: User clicks “Show notification” (or applies a preset) → `NotificationConfig` is built (e.g. add `id`) → `useNotificationStore().addNotification(config)`.
-- **Presets**: `usePresetStore()` for save/load/delete; presets are `{ id, name, config, createdAt }`; config is `Omit<NotificationConfig, 'id'>`. Persistence is behind an internal storage abstraction (localStorage).
+- **Presets**: `usePresetStore()` for save/load/delete; presets are `{ id, name, config, createdAt }`; config is `Omit<NotificationConfig, 'id'>`. Persistence is delegated to `src/infrastructure/presetStorage.ts` (PresetStorage interface + default localStorage adapter); tests can inject a mock.
 
 ### Toast engine
 
@@ -82,7 +84,7 @@ src/
 
 ### Composable
 
-- **useToast()**: Thin wrapper over notification store: `show(config)`, `dismiss(id)`, `clearAll()`, and helpers `showSuccess`, `showError`, `showWarning`, `showInfo`. Exposes reactive `notifications` for consumers that need the list.
+- **useToast(store?)**: Thin wrapper over notification store: `show(config)`, `dismiss(id)`, `clearAll()`, and helpers `showSuccess`, `showError`, `showWarning`, `showInfo`. Accepts optional store for testing or multiple contexts; defaults to `useNotificationStore()`. Exposes reactive `notifications`.
 
 ---
 
@@ -100,7 +102,7 @@ src/
 
 - **Vue 3 Composition API** with `<script setup>` and TypeScript.
 - **Props/emits**: Typed with `defineProps<T>()` and `defineEmits<T>()`; v-model via `modelValue` / `update:modelValue` where appropriate.
-- **Builder public API**: Only `BuilderForm`, `BuilderPreview`, and types (`BuilderFormState`, `AnimationType`) are exported from `@/components/Builder`; inner components stay private.
+- **Builder public API**: Only `BuilderPanel`, `BuilderForm`, `BuilderPreview`, and types are exported from `@/features/builder`; inner components stay private.
 - **Design tokens**: Shared spacing, radius, font sizes, and colors in `styles/tokens.css`; components use `var(--…)` for consistency.
 
 ---

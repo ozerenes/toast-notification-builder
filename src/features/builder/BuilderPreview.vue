@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import ToastContainer from '@/components/ToastContainer.vue'
+import { ToastContainer } from '@/features/toast'
 import BuilderPresets from './BuilderPresets.vue'
 import { useNotificationStore } from '@/stores/notification.store'
-import type { ActiveNotification, Position } from '@/domain'
-import type { Preset } from '@/stores/preset.store'
+import type { ActiveNotification, Position, Preset } from '@/domain'
 import type { AnimationType } from './types'
 
 const props = defineProps<{

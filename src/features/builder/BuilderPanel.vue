@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { BuilderForm, BuilderPreview, type BuilderFormState } from '@/components/Builder'
-import type { AnimationType } from '@/components/Builder'
+import { BuilderForm, BuilderPreview, type BuilderFormState } from '@/features/builder'
+import type { AnimationType } from '@/features/builder'
 import { useNotificationStore } from '@/stores/notification.store'
 import { usePresetStore } from '@/stores/preset.store'
 import type { ActiveNotification, NotificationConfig } from '@/domain'
