@@ -59,7 +59,7 @@ const emit = defineEmits<{
 }
 
 .builder-textarea {
-  min-height: 77px;
+  min-height: 84px;
   resize: vertical;
   padding: var(--space-2) var(--space-3);
   font-size: var(--font-size-xs);

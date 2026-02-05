@@ -62,7 +62,7 @@ const emit = defineEmits<{
   padding: var(--space-3);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
-  border: 1px solid var(--color-border-subtle, #e2e8f0);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   background: #fff;
   color: var(--color-text, #1e293b);

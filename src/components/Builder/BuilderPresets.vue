@@ -87,7 +87,7 @@ watch(presetName, () => {
             :style="{ backgroundColor: getPresetColor(preset.config) }"
           />
           <div class="builder-presets__text">
-            <div class="builder-presets__name">
+            <div class="builder-presets__name" :title="preset.name">
               {{ preset.name }}
             </div>
             <div class="builder-presets__details">
@@ -156,8 +156,9 @@ watch(presetName, () => {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  max-height: 160px;
+  max-height: 130px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .builder-presets__item {
@@ -173,10 +174,12 @@ watch(presetName, () => {
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  min-width: 0;
 }
 
 .builder-presets__dot {
   width: 8px;
+  min-width: 8px;
   height: 8px;
   border-radius: 999px;
 }
@@ -185,12 +188,18 @@ watch(presetName, () => {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .builder-presets__name {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
   color: var(--color-text, #1e293b);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: var(--space-2);
 }
 
 .builder-presets__details {
@@ -201,12 +210,13 @@ watch(presetName, () => {
 .builder-presets__actions {
   display: flex;
   gap: var(--space-2);
+  flex-shrink: 0;
 }
 
 .builder-presets__button {
   border-radius: var(--radius-md);
-  border: 1px solid var(--color-border-subtle, #e2e8f0);
-  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--color-border);
+  padding: var(--space-2) var(--space-3);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
   background-color: #fff;
