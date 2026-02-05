@@ -58,11 +58,9 @@ function showNotification() {
 }
 
 function handleSavePreset(name: string) {
-  const trimmed = name.trim()
-  if (!trimmed) return
-
+  // Validation (trim, empty, duplicate) is done in BuilderPresets before emit; we only persist.
   const config: Omit<NotificationConfig, 'id'> = { ...form.value, animation: animation.value }
-  presetStore.savePreset(trimmed, config)
+  presetStore.savePreset(name, config)
 }
 
 function buildFormStateFromPreset(config: Omit<NotificationConfig, 'id'>): BuilderFormState {
