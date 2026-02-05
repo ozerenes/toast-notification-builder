@@ -159,6 +159,7 @@ function handleDeletePreset(id: string) {
         :animation="animation"
         @close="onPreviewClose"
         @show-notification="showNotification"
+        @clear-all="notificationStore.clearAll"
         @save-preset="handleSavePreset"
         @load-preset="handleLoadPreset"
         @delete-preset="handleDeletePreset"
