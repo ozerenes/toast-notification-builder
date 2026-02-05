@@ -128,8 +128,8 @@ export const usePresetStore = defineStore('preset', () => {
     presetStorage.clear()
   }
 
-  // Initialize from storage on first use; idempotent via loadPresets implementation.
-  loadPresets()
+  // No automatic loadPresets() here; app bootstrap calls loadPresets() once (see main.ts).
+  // This keeps store creation side-effect-free and makes init explicit for tests/SSR.
 
   return {
     // state

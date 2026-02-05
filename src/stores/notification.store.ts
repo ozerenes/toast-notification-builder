@@ -32,6 +32,7 @@ export const useNotificationStore = defineStore('notification', () => {
   }
 
   function clearAll() {
+    // Clear all timeouts first to avoid leaks, then reset the list.
     for (const id of dismissTimeouts.keys()) {
       clearTimeout(dismissTimeouts.get(id)!)
     }
