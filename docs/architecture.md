@@ -38,7 +38,8 @@ src/
 │   ├── notificationDefaults.ts
 │   └── notificationOptions.ts
 ├── infrastructure/             # Persistence adapters (injectable for tests)
-│   └── presetStorage.ts        # PresetStorage interface + createLocalStoragePresetStorage()
+│   ├── presetStorage.ts        # PresetStorage interface + createLocalStoragePresetStorage()
+│   └── presetStorageProvider.ts # getPresetStorage(), setPresetStorageForTesting() for test injection
 ├── shared/                     # Shared utilities (ID generation, constants)
 │   ├── id.ts                   # createId, createNotificationId, createPresetId
 │   ├── constants.ts            # COPY_FEEDBACK_MS, MAX_DURATION_SEC
@@ -87,7 +88,7 @@ src/
 
 - **State ownership**: `BuilderPanel` holds form state in a single `ref<BuilderFormState>` (and optional `ref<AnimationType>` for preview). No Pinia for builder form.
 - **Form → Store**: User clicks “Show notification” (or applies a preset) → `NotificationConfig` is built (e.g. add `id`) → `useNotificationStore().addNotification(config)`.
-- **Presets**: `usePresetStore()` for save/load/delete; presets are `{ id, name, config, createdAt }`; config is `Omit<NotificationConfig, 'id'>`. Persistence is delegated to `src/infrastructure/presetStorage.ts` (PresetStorage interface + default localStorage adapter); tests can inject a mock.
+- **Presets**: `usePresetStore()` for save/load/delete; presets are `{ id, name, config, createdAt }`; config is `Omit<NotificationConfig, 'id'>`. Persistence is delegated to `getPresetStorage()` from `src/infrastructure/presetStorageProvider.ts` (default: localStorage adapter). Tests call `setPresetStorageForTesting(mockStorage)` so the store uses an in-memory mock and does not touch localStorage.
 
 ### Toast engine
 
