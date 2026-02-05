@@ -2,10 +2,7 @@
 import { computed } from 'vue'
 import ToastItem from './ToastItem.vue'
 import type { ActiveNotification, Position } from '@/domain'
-import {
-  getToastTransitionName,
-  type ToastAnimation,
-} from './animations/toastAnimations'
+import { getToastTransitionName, type ToastAnimation } from './animations/toastAnimations'
 
 const props = withDefaults(
   defineProps<{

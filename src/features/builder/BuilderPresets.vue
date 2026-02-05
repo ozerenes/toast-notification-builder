@@ -2,6 +2,7 @@
 import { ref, computed, watch } from 'vue'
 import type { Position, PositionOption, Preset } from '@/domain'
 import { POSITION_OPTIONS, TYPE_DEFAULT_COLORS } from '@/domain'
+import { validatePresetName } from './presetValidation'
 
 const props = defineProps<{
   presets: Preset[]
@@ -40,22 +41,13 @@ function getPresetColor(config: Preset['config']): string {
 }
 
 function handleSave() {
-  const name = presetName.value.trim()
-  if (!name) {
-    presetError.value = 'Please enter a preset name.'
+  const result = validatePresetName(presetName.value, props.presets)
+  if (!result.valid) {
+    presetError.value = result.error
     return
   }
 
-  const exists = props.presets.some(
-    (preset) => preset.name.trim().toLowerCase() === name.toLowerCase()
-  )
-
-  if (exists) {
-    presetError.value = 'A preset with this name already exists.'
-    return
-  }
-
-  emit('save', name)
+  emit('save', result.name)
   presetName.value = ''
   presetError.value = ''
 }
