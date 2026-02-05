@@ -42,7 +42,7 @@ const emit = defineEmits<{
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-md);
   color: var(--color-text);
-  background: #fff;
+  background: var(--color-surface);
 }
 
 .builder-textarea {

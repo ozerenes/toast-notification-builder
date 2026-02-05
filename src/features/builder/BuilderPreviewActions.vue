@@ -28,14 +28,14 @@ const emit = defineEmits<{
   font-size: var(--font-size-xs);
   border: none;
   border-radius: var(--radius-md);
-  background: var(--color-primary, #4f46e5);
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--color-bg);
   cursor: pointer;
   transition: background 0.15s;
 }
 
 .builder-preview__action:hover {
-  background: var(--color-primary-hover, #4338ca);
+  background: var(--color-primary-hover);
 }
 
 .builder-preview__action:active {
@@ -43,11 +43,11 @@ const emit = defineEmits<{
 }
 
 .builder-preview__action--danger {
-  background: #ef4444;
+  background: var(--color-danger);
 }
 
 .builder-preview__action--danger:hover {
-  background: #b91c1c;
+  background: var(--color-danger-hover);
 }
 
 .builder-preview__actions {

@@ -55,8 +55,8 @@ const emit = defineEmits<{
   font-weight: var(--font-weight-medium);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  background: #fff;
-  color: var(--color-text, #1e293b);
+  background: var(--color-surface);
+  color: var(--color-text);
   cursor: pointer;
   transition:
     border-color 0.15s,
@@ -71,7 +71,7 @@ const emit = defineEmits<{
 }
 
 .builder-pill:hover {
-  border-color: var(--color-primary, #4f46e5);
+  border-color: var(--color-primary);
 }
 
 .builder-pill--active {

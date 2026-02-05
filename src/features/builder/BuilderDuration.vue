@@ -63,7 +63,7 @@ function setPersistent(value: boolean) {
   flex: 1;
   min-width: 0;
   min-height: 24px;
-  accent-color: var(--color-primary, #4f46e5);
+  accent-color: var(--color-primary);
 }
 
 .builder-duration__value {
