@@ -78,7 +78,7 @@ src/
 
 ### Toast engine
 
-- **Notification store**: Holds `activeNotifications: Ref<ActiveNotification[]>`, manages auto-dismiss timeouts, and exposes `addNotification`, `removeNotification`, `clearAll`.
+- **Notification store**: Holds `activeNotifications: Ref<ActiveNotification[]>`, manages auto-dismiss timeouts (internal `dismissTimeouts` Map; not exposed and must be excluded from any future store serialization), and exposes `addNotification`, `removeNotification`, `clearAll`.
 - **GlobalToastLayer**: Reads store (e.g. via `storeToRefs`), groups notifications by position, renders one `ToastContainer` per position with the chosen animation.
 - **ToastContainer**: Receives `notifications`, `position`, optional `animation`; uses `TransitionGroup` and `ToastItem`; emits `close(id)` → store removes notification.
 

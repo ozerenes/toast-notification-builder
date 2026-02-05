@@ -39,6 +39,7 @@ describe('usePresetStore', () => {
 
     setActivePinia(createPinia())
     const store2 = usePresetStore()
+    store2.loadPresets()
     expect(store2.presets).toHaveLength(1)
     expect(store2.presets[0].name).toBe('My Preset')
   })
