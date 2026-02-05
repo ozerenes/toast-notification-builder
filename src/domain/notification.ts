@@ -4,7 +4,13 @@
 
 export type NotificationType = 'success' | 'error' | 'warning' | 'info'
 
-export type Position = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+export type Position =
+  | 'top-left'
+  | 'top-right'
+  | 'top-center'
+  | 'bottom-left'
+  | 'bottom-right'
+  | 'bottom-center'
 
 export interface NotificationConfig {
   id: string
