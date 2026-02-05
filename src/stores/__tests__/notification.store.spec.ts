@@ -23,6 +23,37 @@ describe('useNotificationStore', () => {
   it('adds a notification', () => {
     const store = useNotificationStore()
     store.addNotification(mockConfig)
-    expect(store.activeNotifications.length).toBe(1)
+    expect(store.activeNotifications).toHaveLength(1)
+  })
+
+  it('auto-dismisses after duration', (done) => {
+    const store = useNotificationStore()
+    store.addNotification({ ...mockConfig, id: 'auto-1', duration: 50 })
+    expect(store.activeNotifications).toHaveLength(1)
+    setTimeout(() => {
+      expect(store.activeNotifications).toHaveLength(0)
+      done()
+    }, 100)
+  })
+
+  it('manual dismiss removes notification and clears timeout', () => {
+    const store = useNotificationStore()
+    store.addNotification({ ...mockConfig, id: 'manual-1', duration: 10000 })
+    expect(store.activeNotifications).toHaveLength(1)
+    store.removeNotification('manual-1')
+    expect(store.activeNotifications).toHaveLength(0)
+    setTimeout(() => {
+      expect(store.activeNotifications).toHaveLength(0)
+    }, 50)
+  })
+
+  it('timeout is cleared on removeNotification', (done) => {
+    const store = useNotificationStore()
+    store.addNotification({ ...mockConfig, id: 'timeout-1', duration: 200 })
+    store.removeNotification('timeout-1')
+    setTimeout(() => {
+      expect(store.activeNotifications).toHaveLength(0)
+      done()
+    }, 250)
   })
 })
