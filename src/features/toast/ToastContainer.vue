@@ -27,6 +27,10 @@ const transitionName = computed(() => getToastTransitionName(props.animation))
 const emit = defineEmits<{
   close: [id: string]
 }>()
+
+function handleClose(id: string) {
+  emit('close', id)
+}
 </script>
 
 <template>
@@ -43,7 +47,7 @@ const emit = defineEmits<{
         v-for="notification in notifications"
         :key="notification.id"
         :notification="notification"
-        @close="(id) => emit('close', id)"
+        @close="handleClose"
       />
     </TransitionGroup>
   </div>
