@@ -49,7 +49,7 @@ function setActiveAnimation(animation: 'fade' | 'slide' | 'pop') {
 .builder-group__label {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
-  color: var(--builder-text-muted, #64748b);
+  color: var(--color-text-muted, #64748b);
 }
 
 .builder-animations {
@@ -61,21 +61,21 @@ function setActiveAnimation(animation: 'fade' | 'slide' | 'pop') {
   padding: var(--space-2) var(--space-3);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
-  border: 1px solid var(--builder-border, #e2e8f0);
+  border: 1px solid var(--color-border-subtle, #e2e8f0);
   border-radius: var(--radius-md);
   background: #fff;
-  color: var(--builder-text, #1e293b);
+  color: var(--color-text, #1e293b);
   cursor: pointer;
 }
 
 .builder-animation-item:hover {
-  border-color: var(--builder-accent, #7c3aed);
-  background: var(--builder-bg, #f8fafc);
+  border-color: var(--color-primary, #4f46e5);
+  background: var(--color-surface-muted, #f8fafc);
 }
 
 .builder-animation-item--active {
-  border-color: var(--builder-accent, #7c3aed);
+  border-color: var(--color-primary, #4f46e5);
   background: rgba(124, 58, 237, 0.08);
-  color: var(--builder-accent, #7c3aed);
+  color: var(--color-primary, #4f46e5);
 }
 </style>

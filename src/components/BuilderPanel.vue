@@ -73,13 +73,6 @@ function showNotification() {
 
 <style scoped>
 .builder-panel {
-  --builder-accent: #7c3aed;
-  --builder-accent-hover: #6d28d9;
-  --builder-border: #e2e8f0;
-  --builder-bg: #f8fafc;
-  --builder-text: #1e293b;
-  --builder-text-muted: #64748b;
-
   display: flex;
   flex-direction: row;
   gap: var(--space-4);
@@ -93,8 +86,8 @@ function showNotification() {
   margin: 0;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
-  color: var(--builder-text);
-  border-bottom: 1px solid var(--builder-border);
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border-subtle);
   padding: var(--space-3);
 }
 

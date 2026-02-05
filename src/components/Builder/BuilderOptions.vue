@@ -56,7 +56,7 @@ const emit = defineEmits<{
 .builder-group__label {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
-  color: var(--builder-text-muted, #64748b);
+  color: var(--color-text-muted, #64748b);
   margin-bottom: var(--space-2);
 }
 
@@ -72,7 +72,7 @@ const emit = defineEmits<{
 .builder-checkbox {
   width: 1.1rem;
   height: 1.1rem;
-  accent-color: var(--builder-accent, #7c3aed);
+  accent-color: var(--color-primary, #4f46e5);
   cursor: pointer;
   margin: 0;
 }

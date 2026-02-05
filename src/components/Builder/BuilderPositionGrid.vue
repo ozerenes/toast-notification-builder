@@ -43,7 +43,7 @@ function onSelect(position: Position) {
 .builder-group__label {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
-  color: var(--builder-text-muted, #64748b);
+  color: var(--color-text-muted, #64748b);
 }
 
 .builder-position-grid {
@@ -58,16 +58,16 @@ function onSelect(position: Position) {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
   border-radius: var(--radius-md);
-  border: 1px solid var(--builder-border, #e2e8f0);
+  border: 1px solid var(--color-border-subtle, #e2e8f0);
   background: #fff;
-  color: var(--builder-text, #1e293b);
+  color: var(--color-text, #1e293b);
   cursor: pointer;
   text-align: center;
 }
 
 .builder-position-cell--active {
-  border-color: var(--builder-accent, #7c3aed);
+  border-color: var(--color-primary, #4f46e5);
   background: rgba(124, 58, 237, 0.06);
-  color: var(--builder-accent, #7c3aed);
+  color: var(--color-primary, #4f46e5);
 }
 </style>

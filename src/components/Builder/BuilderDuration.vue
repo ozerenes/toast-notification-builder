@@ -62,7 +62,7 @@ function setPersistent(value: boolean) {
 .builder-group__label {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
-  color: var(--builder-text-muted, #64748b);
+  color: var(--color-text-muted, #64748b);
 }
 
 .builder-duration {
@@ -75,7 +75,7 @@ function setPersistent(value: boolean) {
   flex: 1;
   min-width: 0;
   min-height: 24px;
-  accent-color: var(--builder-accent, #7c3aed);
+  accent-color: var(--color-primary, #4f46e5);
 }
 
 .builder-duration__value {
@@ -96,7 +96,7 @@ function setPersistent(value: boolean) {
 .builder-checkbox {
   width: 1.125rem;
   height: 1.125rem;
-  accent-color: var(--builder-accent, #7c3aed);
+  accent-color: var(--color-primary, #4f46e5);
   cursor: pointer;
 }
 </style>

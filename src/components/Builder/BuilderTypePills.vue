@@ -48,7 +48,7 @@ const emit = defineEmits<{
 .builder-group__label {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
-  color: var(--builder-text-muted, #64748b);
+  color: var(--color-text-muted, #64748b);
 }
 
 .builder-type-pills {
@@ -62,10 +62,10 @@ const emit = defineEmits<{
   padding: var(--space-3);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
-  border: 1px solid var(--builder-border, #e2e8f0);
+  border: 1px solid var(--color-border-subtle, #e2e8f0);
   border-radius: var(--radius-md);
   background: #fff;
-  color: var(--builder-text, #1e293b);
+  color: var(--color-text, #1e293b);
   cursor: pointer;
   transition:
     border-color 0.15s,
@@ -80,7 +80,7 @@ const emit = defineEmits<{
 }
 
 .builder-pill:hover {
-  border-color: var(--builder-accent, #7c3aed);
+  border-color: var(--color-primary, #4f46e5);
 }
 
 .builder-pill--active {
