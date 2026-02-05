@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { MAX_DURATION_SEC } from '@/shared/constants'
 
 const props = defineProps<{
   modelValue: number
@@ -30,7 +31,7 @@ function setPersistent(value: boolean) {
         v-model.number="durationSeconds"
         type="range"
         min="0"
-        max="10"
+        :max="MAX_DURATION_SEC"
         step="1"
         class="builder-range"
         :disabled="isPersistent"
@@ -52,19 +53,6 @@ function setPersistent(value: boolean) {
 </template>
 
 <style scoped>
-.builder-group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  margin-bottom: var(--space-4);
-}
-
-.builder-group__label {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-muted, #64748b);
-}
-
 .builder-duration {
   display: flex;
   align-items: center;

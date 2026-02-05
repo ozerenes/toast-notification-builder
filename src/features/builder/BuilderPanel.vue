@@ -2,8 +2,10 @@
 import { computed, ref } from 'vue'
 import { BuilderForm, BuilderPreview, type BuilderFormState } from '@/features/builder'
 import type { AnimationType } from '@/features/builder'
+import { buildExportCode } from '@/features/builder/exportCode'
 import { useNotificationStore } from '@/stores/notification.store'
 import { usePresetStore } from '@/stores/preset.store'
+import { createNotificationId } from '@/shared/id'
 import type { ActiveNotification, NotificationConfig } from '@/domain'
 import { TYPE_DEFAULT_COLORS } from '@/domain'
 
@@ -29,42 +31,7 @@ const previewNotification = computed<ActiveNotification>(() => ({
 
 const previewNotifications = computed(() => [previewNotification.value])
 
-const exportCode = computed(() => {
-  const {
-    type,
-    title,
-    message,
-    duration,
-    position,
-    backgroundColor,
-    textColor,
-    showIcon,
-    showCloseButton,
-  } = form.value
-
-  const idSnippet =
-    "typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `toast-${Date.now()}`"
-  const lines = [
-    "import { useNotificationStore } from '@/stores/notification.store'",
-    '',
-    'const notificationStore = useNotificationStore()',
-    'notificationStore.addNotification({',
-    `  id: ${idSnippet},`,
-    `  type: '${type}',`,
-    `  title: '${title || 'Success!'}',`,
-    `  message: '${message || 'Your changes have been saved.'}',`,
-    `  duration: ${duration},`,
-    `  position: '${position}',`,
-    `  backgroundColor: '${backgroundColor}',`,
-    `  textColor: '${textColor}',`,
-    `  showIcon: ${showIcon},`,
-    `  showCloseButton: ${showCloseButton},`,
-    `  animation: '${animation.value}',`,
-    '})',
-  ]
-
-  return lines.join('\n')
-})
+const exportCode = computed(() => buildExportCode(form.value, animation.value))
 
 const notificationStore = useNotificationStore()
 const presetStore = usePresetStore()
@@ -82,11 +49,11 @@ function onPreviewClose() {
 }
 
 function showNotification() {
-  const id =
-    typeof crypto !== 'undefined' && crypto.randomUUID
-      ? crypto.randomUUID()
-      : `toast-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
-  const config: NotificationConfig = { ...form.value, id, animation: animation.value }
+  const config: NotificationConfig = {
+    ...form.value,
+    id: createNotificationId(),
+    animation: animation.value,
+  }
   notificationStore.addNotification(config)
 }
 

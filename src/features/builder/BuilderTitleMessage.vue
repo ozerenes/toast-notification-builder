@@ -35,19 +35,6 @@ const emit = defineEmits<{
 </template>
 
 <style scoped>
-.builder-group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  margin-bottom: var(--space-4);
-}
-
-.builder-group__label {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-muted);
-}
-
 .builder-input,
 .builder-textarea {
   padding: var(--space-3);

@@ -36,18 +36,6 @@ function setActiveAnimation(animation: AnimationType) {
 </template>
 
 <style scoped>
-.builder-group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-.builder-group__label {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-muted);
-}
-
 .builder-animations {
   display: flex;
   gap: var(--space-2);

@@ -36,15 +36,6 @@ const emit = defineEmits<{
 </template>
 
 <style scoped>
-.builder-group {
-  margin-bottom: var(--space-4);
-}
-
-.builder-options {
-  display: flex;
-  gap: var(--space-6);
-}
-
 .builder-group--options {
   gap: var(--space-4);
 }
@@ -53,11 +44,13 @@ const emit = defineEmits<{
   margin-bottom: 0;
 }
 
-.builder-group__label {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-muted, #64748b);
+.builder-group--options .builder-group__label {
   margin-bottom: var(--space-2);
+}
+
+.builder-options {
+  display: flex;
+  gap: var(--space-6);
 }
 
 .builder-checkbox-wrap {
