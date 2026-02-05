@@ -37,31 +37,44 @@ src/
 │   ├── notification.ts       # NotificationConfig, ActiveNotification, Preset
 │   ├── notificationDefaults.ts
 │   └── notificationOptions.ts
-├── infrastructure/           # Persistence adapters (injectable for tests)
-│   └── presetStorage.ts      # PresetStorage interface + createLocalStoragePresetStorage()
+├── infrastructure/             # Persistence adapters (injectable for tests)
+│   └── presetStorage.ts        # PresetStorage interface + createLocalStoragePresetStorage()
+├── shared/                     # Shared utilities (ID generation, constants)
+│   ├── id.ts                   # createId, createNotificationId, createPresetId
+│   ├── constants.ts            # COPY_FEEDBACK_MS, MAX_DURATION_SEC
+│   └── index.ts
 ├── stores/
 │   ├── notification.store.ts # Active toasts + timeouts
 │   ├── preset.store.ts       # Presets; uses infrastructure presetStorage
 │   └── __tests__/
 ├── composables/
 │   ├── index.ts
-│   └── useToast.ts             # show, dismiss, clearAll, showSuccess/Error/…
-├── components/
-│   ├── BuilderPanel.vue        # Orchestrator: form state, preview, store wiring
-│   ├── GlobalToastLayer.vue    # Renders one ToastContainer per position (app-level)
-│   ├── ToastContainer.vue      # List + transition for one position
-│   ├── ToastItem.vue           # Single toast UI
-│   ├── Builder/                # Builder feature (barrel: BuilderForm, BuilderPreview, types)
-│   │   ├── index.ts
-│   │   ├── types.ts            # BuilderFormState, AnimationType (re-exports ToastAnimation)
+│   ├── useToast.ts             # show, dismiss, clearAll, showSuccess/Error/…
+│   └── __tests__/
+├── features/
+│   ├── builder/                # Builder feature (config UI, preview, presets, export)
+│   │   ├── index.ts            # Barrel: BuilderPanel, BuilderForm, BuilderPreview, types
+│   │   ├── types.ts            # BuilderFormState, AnimationType
+│   │   ├── exportCode.ts       # buildExportCode(form, animation)
+│   │   ├── presetValidation.ts # validatePresetName, PRESET_VALIDATION
+│   │   ├── BuilderPanel.vue    # Orchestrator: form state, preview, store wiring
 │   │   ├── BuilderForm.vue     # Form container (modelValue / update:modelValue)
-│   │   ├── BuilderPreview.vue  # Live preview + “Show notification” action
-│   │   ├── BuilderPresets.vue  # Save/load/apply presets
+│   │   ├── BuilderPreview.vue  # Composes preview area, actions, presets, code export
+│   │   ├── BuilderPreviewArea.vue
+│   │   ├── BuilderPreviewActions.vue
+│   │   ├── BuilderPresets.vue   # Save/load/apply presets
+│   │   ├── BuilderCodeExport.vue
 │   │   └── Builder*.vue        # Field-level: TypePills, TitleMessage, Duration, PositionGrid, …
-│   └── Toast/
+│   └── toast/                  # Toast engine (display, animation)
+│       ├── index.ts
+│       ├── GlobalToastLayer.vue # Renders one ToastContainer per position (app-level)
+│       ├── ToastContainer.vue   # List + transition for one position
+│       ├── ToastItem.vue        # Single toast UI
+│       ├── __tests__/
 │       └── animations/         # toastAnimations.ts (types + names), toastAnimations.css
 ├── styles/
-│   └── tokens.css             # Design tokens (spacing, radius, font, colors)
+│   ├── tokens.css              # Design tokens (spacing, radius, font, colors)
+│   └── builder-shared.css      # .builder-group, .builder-group__label
 ├── App.vue
 └── main.ts
 ```
