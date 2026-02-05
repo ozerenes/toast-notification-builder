@@ -1,45 +1,112 @@
 # Architecture Overview
 
-This document describes the high-level architecture
-and design decisions of the Toast Notification Builder.
+This document describes the high-level architecture and design decisions of the Toast Notification Builder.
 
 ## Goals
 
-- Separate configuration (builder) from runtime behavior (toast engine)
-- Keep UI components stateless and reusable
-- Use TypeScript as the source of truth for the domain
+- **Separate concerns**: Builder (configuration UI) vs. Toast Engine (runtime display and behavior).
+- **Stateless, reusable UI**: Components receive props and emit events; domain types are the single source of truth.
+- **TypeScript-first**: Domain and stores are strictly typed; no `any` in core paths.
+- **Testable**: Stores and composables can be unit-tested; persistence is abstracted (e.g. preset storage).
 
 ## Non-Goals
 
-- Building a full toast framework
-- Supporting SSR or backend persistence
-- Introducing heavy abstractions
+- Full-featured toast framework or SSR.
+- Backend persistence (presets are localStorage-only).
+- Heavy abstractions or framework lock-in beyond Vue 3 + Pinia.
+
+---
 
 ## High-Level Modules
 
-### 1. Builder Layer
+| Module | Responsibility |
+|--------|----------------|
+| **Domain** | Types (`NotificationConfig`, `Position`, etc.), constants (`TYPE_DEFAULT_COLORS`, `POSITION_OPTIONS`). No Vue, no side effects. |
+| **Builder** | UI to create/edit notification configs: form state (local), presets (store), live preview, optional code export. |
+| **Toast Engine** | Display active toasts: stacking, position, animation, auto-dismiss. Backed by notification store. |
+| **Persistence** | Preset store: save/load/delete presets via localStorage; validation and defensive parsing. |
 
-Responsible for creating and editing notification configurations.
-Does not display real notifications.
+---
 
-### 2. Toast Engine
+## Folder Structure
 
-Responsible for displaying active notifications,
-handling stacking, positioning, and auto-dismiss behavior.
+```
+src/
+├── domain/                 # Types and constants (framework-agnostic)
+│   ├── index.ts
+│   ├── notification.ts
+│   ├── notificationDefaults.ts
+│   └── notificationOptions.ts
+├── stores/
+│   ├── notification.store.ts   # Active toasts + timeouts
+│   ├── preset.store.ts         # Presets + localStorage
+│   └── __tests__/
+├── composables/
+│   ├── index.ts
+│   └── useToast.ts             # show, dismiss, clearAll, showSuccess/Error/…
+├── components/
+│   ├── BuilderPanel.vue        # Orchestrator: form state, preview, store wiring
+│   ├── GlobalToastLayer.vue    # Renders one ToastContainer per position (app-level)
+│   ├── ToastContainer.vue      # List + transition for one position
+│   ├── ToastItem.vue           # Single toast UI
+│   ├── Builder/                # Builder feature (barrel: BuilderForm, BuilderPreview, types)
+│   │   ├── index.ts
+│   │   ├── types.ts            # BuilderFormState, AnimationType (re-exports ToastAnimation)
+│   │   ├── BuilderForm.vue     # Form container (modelValue / update:modelValue)
+│   │   ├── BuilderPreview.vue  # Live preview + “Show notification” action
+│   │   ├── BuilderPresets.vue  # Save/load/apply presets
+│   │   └── Builder*.vue        # Field-level: TypePills, TitleMessage, Duration, PositionGrid, …
+│   └── Toast/
+│       └── animations/         # toastAnimations.ts (types + names), toastAnimations.css
+├── styles/
+│   └── tokens.css             # Design tokens (spacing, radius, font, colors)
+├── App.vue
+└── main.ts
+```
 
-### 3. Persistence Layer
+---
 
-Handles saving and loading presets using localStorage.
+## Data Flow
 
-## State Management
+### Builder
 
-Pinia is used to separate:
+- **State ownership**: `BuilderPanel` holds form state in a single `ref<BuilderFormState>` (and optional `ref<AnimationType>` for preview). No Pinia for builder form.
+- **Form → Store**: User clicks “Show notification” (or applies a preset) → `NotificationConfig` is built (e.g. add `id`) → `useNotificationStore().addNotification(config)`.
+- **Presets**: `usePresetStore()` for save/load/delete; presets are `{ id, name, config, createdAt }`; config is `Omit<NotificationConfig, 'id'>`. Persistence is behind an internal storage abstraction (localStorage).
 
-- Builder state
-- Active toast state
-- Preset persistence state
+### Toast engine
 
-## Open Decisions
+- **Notification store**: Holds `activeNotifications: Ref<ActiveNotification[]>`, manages auto-dismiss timeouts, and exposes `addNotification`, `removeNotification`, `clearAll`.
+- **GlobalToastLayer**: Reads store (e.g. via `storeToRefs`), groups notifications by position, renders one `ToastContainer` per position with the chosen animation.
+- **ToastContainer**: Receives `notifications`, `position`, optional `animation`; uses `TransitionGroup` and `ToastItem`; emits `close(id)` → store removes notification.
 
-- Animation variants (fade, slide, bounce)
-- Code export format (JS vs JSON)
+### Composable
+
+- **useToast()**: Thin wrapper over notification store: `show(config)`, `dismiss(id)`, `clearAll()`, and helpers `showSuccess`, `showError`, `showWarning`, `showInfo`. Exposes reactive `notifications` for consumers that need the list.
+
+---
+
+## State Summary
+
+| State | Where | Persisted |
+|-------|--------|-----------|
+| Builder form (type, title, message, duration, position, colors, options, animation) | `BuilderPanel` (ref) | No |
+| Active toasts | `notification` store (Pinia) | No |
+| Presets | `preset` store (Pinia) | Yes (localStorage) |
+
+---
+
+## Key Conventions
+
+- **Vue 3 Composition API** with `<script setup>` and TypeScript.
+- **Props/emits**: Typed with `defineProps<T>()` and `defineEmits<T>()`; v-model via `modelValue` / `update:modelValue` where appropriate.
+- **Builder public API**: Only `BuilderForm`, `BuilderPreview`, and types (`BuilderFormState`, `AnimationType`) are exported from `@/components/Builder`; inner components stay private.
+- **Design tokens**: Shared spacing, radius, font sizes, and colors in `styles/tokens.css`; components use `var(--…)` for consistency.
+
+---
+
+## Open / Future
+
+- **Animation**: Multiple variants (fade, slide, scale, bounce, flip) exist in Toast animations; builder may expose animation choice in form state and pass it through to engine.
+- **Code export**: Optional JS/JSON export of current config for copy-paste (e.g. in BuilderPanel or a dedicated export component).
+- **Accessibility**: ARIA and keyboard behavior for toasts and builder controls to be reviewed and documented.
