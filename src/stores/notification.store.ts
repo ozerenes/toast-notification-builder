@@ -31,5 +31,13 @@ export const useNotificationStore = defineStore('notification', () => {
     activeNotifications.value = activeNotifications.value.filter((n) => n.id !== id)
   }
 
-  return { activeNotifications, addNotification, removeNotification }
+  function clearAll() {
+    for (const id of dismissTimeouts.keys()) {
+      clearTimeout(dismissTimeouts.get(id)!)
+    }
+    dismissTimeouts.clear()
+    activeNotifications.value = []
+  }
+
+  return { activeNotifications, addNotification, removeNotification, clearAll }
 })
