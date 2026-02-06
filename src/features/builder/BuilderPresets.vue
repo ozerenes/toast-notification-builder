@@ -147,7 +147,7 @@ watch(presetName, () => {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  max-height: 130px;
+  max-height: 125px;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -283,5 +283,17 @@ watch(presetName, () => {
 .builder-presets-leave-to {
   opacity: 0;
   transform: translateY(4px);
+}
+
+@media (max-width: 640px) {
+  .builder-presets {
+    margin-top: var(--space-3);
+    gap: var(--space-2);
+  }
+
+  .builder-presets__button,
+  .builder-presets__save {
+    min-height: 2.75rem;
+  }
 }
 </style>

@@ -64,11 +64,7 @@ function onHoverEnd() {
         <Icon name="x" :size="16" class="toast-item__close-icon" aria-hidden="true" />
       </button>
     </div>
-    <div
-      v-if="notification.duration > 0"
-      class="toast-item__progress"
-      aria-hidden="true"
-    />
+    <div v-if="notification.duration > 0" class="toast-item__progress" aria-hidden="true" />
   </div>
 </template>
 

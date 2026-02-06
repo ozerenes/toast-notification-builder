@@ -86,4 +86,15 @@ function updateAnimation(value: AnimationType) {
   background-color: var(--color-border-subtle);
   margin: var(--space-4) 0;
 }
+
+@media (max-width: 640px) {
+  .builder-form {
+    padding: var(--space-3);
+    gap: var(--space-3);
+  }
+
+  .divider {
+    margin: var(--space-3) 0;
+  }
+}
 </style>

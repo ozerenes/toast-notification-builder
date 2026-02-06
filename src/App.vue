@@ -51,6 +51,12 @@ const isDarkTheme = () => theme.value === 'dark'
   padding: var(--space-3) var(--space-4);
 }
 
+@media (max-width: 640px) {
+  .app__header {
+    padding: var(--space-2) var(--space-3);
+  }
+}
+
 .app__heading {
   margin: 0;
   font-size: var(--font-size-md);

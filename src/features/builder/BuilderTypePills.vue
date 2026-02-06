@@ -80,7 +80,6 @@ const emit = defineEmits<{
   gap: var(--space-1);
   flex-direction: column;
   width: 100%;
-  max-width: 130px;
 }
 
 .builder-pill:hover {

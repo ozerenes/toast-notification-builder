@@ -210,4 +210,11 @@ async function copyToClipboard() {
   font-weight: var(--font-weight-medium);
   cursor: pointer;
 }
+
+@media (max-width: 640px) {
+  .builder-export__code {
+    max-height: 12rem;
+    overflow-y: auto;
+  }
+}
 </style>
