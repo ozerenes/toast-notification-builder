@@ -156,7 +156,7 @@ function handleDeletePreset(id: string) {
 .builder-panel__config,
 .builder-panel__preview {
   background: var(--color-surface);
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px 0 var(--color-shadow);
   border-radius: var(--radius-lg);
 }
 

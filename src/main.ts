@@ -9,6 +9,9 @@ import '@fontsource/inter/600.css'
 import '@fontsource/inter/700.css'
 import './styles/tokens.css'
 import '@/features/toast/animations/toastAnimations.css'
+import { initTheme } from '@/theme/themeController'
+
+initTheme()
 
 const app = createApp(App)
 const pinia = createPinia()
