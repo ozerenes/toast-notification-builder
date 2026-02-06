@@ -19,12 +19,12 @@ This document describes the high-level architecture and design decisions of the 
 
 ## High-Level Modules
 
-| Module | Responsibility |
-|--------|----------------|
-| **Domain** | Types (`NotificationConfig`, `Position`, etc.), constants (`TYPE_DEFAULT_COLORS`, `POSITION_OPTIONS`). No Vue, no side effects. |
-| **Builder** | UI to create/edit notification configs: form state (local), presets (store), live preview, optional code export. |
-| **Toast Engine** | Display active toasts: stacking, position, animation, auto-dismiss. Backed by notification store. |
-| **Persistence** | Preset store: save/load/delete presets via localStorage; validation and defensive parsing. |
+| Module           | Responsibility                                                                                                                  |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| **Domain**       | Types (`NotificationConfig`, `Position`, etc.), constants (`TYPE_DEFAULT_COLORS`, `POSITION_OPTIONS`). No Vue, no side effects. |
+| **Builder**      | UI to create/edit notification configs: form state (local), presets (store), live preview, optional code export.                |
+| **Toast Engine** | Display active toasts: stacking, position, animation, auto-dismiss. Backed by notification store.                               |
+| **Persistence**  | Preset store: save/load/delete presets via localStorage; validation and defensive parsing.                                      |
 
 ---
 
@@ -104,11 +104,11 @@ src/
 
 ## State Summary
 
-| State | Where | Persisted |
-|-------|--------|-----------|
-| Builder form (type, title, message, duration, position, colors, options, animation) | `BuilderPanel` (ref) | No |
-| Active toasts | `notification` store (Pinia) | No |
-| Presets | `preset` store (Pinia) | Yes (localStorage) |
+| State                                                                               | Where                        | Persisted          |
+| ----------------------------------------------------------------------------------- | ---------------------------- | ------------------ |
+| Builder form (type, title, message, duration, position, colors, options, animation) | `BuilderPanel` (ref)         | No                 |
+| Active toasts                                                                       | `notification` store (Pinia) | No                 |
+| Presets                                                                             | `preset` store (Pinia)       | Yes (localStorage) |
 
 ---
 
