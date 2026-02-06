@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { COPY_FEEDBACK_MS } from '@/shared/constants'
+import Icon from '@/components/Icon.vue'
 
 const props = defineProps<{
   exportCode: string
@@ -103,9 +104,12 @@ async function copyToClipboard() {
         :aria-label="copied ? 'Code copied' : 'Copy code'"
         @click="copyToClipboard"
       >
-        <span class="builder-export__copy-icon" aria-hidden="true">
-          {{ copied ? '✓' : '⧉' }}
-        </span>
+        <Icon
+          :name="copied ? 'check' : 'copy'"
+          :size="14"
+          class="builder-export__copy-icon"
+          aria-hidden="true"
+        />
       </button>
       <button type="button" class="builder-export__copy-inline" @click="copyToClipboard">
         {{ copied ? 'Copied!' : 'Copy to Clipboard' }}
@@ -192,9 +196,8 @@ async function copyToClipboard() {
 }
 
 .builder-export__copy-icon {
-  display: inline-block;
-  font-size: 0.85rem;
-  line-height: 1;
+  display: block;
+  color: currentColor;
 }
 
 .builder-export__copy-inline {
