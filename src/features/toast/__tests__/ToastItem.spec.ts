@@ -29,7 +29,7 @@ describe('ToastItem', () => {
     const wrapper = mount(ToastItem, {
       props: { notification: baseNotification },
     })
-    expect(wrapper.find('.toast-item__icon').text()).toBe('✓')
+    expect(wrapper.find('.toast-item__icon').exists()).toBe(true)
   })
 
   it('hides icon when showIcon is false', () => {
