@@ -21,12 +21,7 @@ export function buildExportCode(form: BuilderFormState, animation: AnimationType
   } = form
 
   const lines = [
-    "import { createNotificationId } from '@/shared/id'",
-    "import { useNotificationStore } from '@/stores/notification.store'",
-    '',
-    'const notificationStore = useNotificationStore()',
-    'notificationStore.addNotification({',
-    `  id: createNotificationId(),`,
+    'const notification = {',
     `  type: '${type}',`,
     `  title: '${title || EXPORT_DEFAULT_TITLE}',`,
     `  message: '${message || EXPORT_DEFAULT_MESSAGE}',`,
@@ -37,7 +32,7 @@ export function buildExportCode(form: BuilderFormState, animation: AnimationType
     `  showIcon: ${showIcon},`,
     `  showCloseButton: ${showCloseButton},`,
     `  animation: '${animation}',`,
-    '})',
+    '};',
   ]
 
   return lines.join('\n')
