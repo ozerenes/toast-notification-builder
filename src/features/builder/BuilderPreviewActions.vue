@@ -55,4 +55,10 @@ const emit = defineEmits<{
   flex-direction: row;
   gap: var(--space-2);
 }
+
+@media (max-width: 640px) {
+  .builder-preview__action {
+    min-height: 2.75rem;
+  }
+}
 </style>

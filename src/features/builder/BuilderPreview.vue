@@ -52,4 +52,10 @@ const emit = defineEmits<{
   flex-direction: column;
   padding: var(--space-4);
 }
+
+@media (max-width: 640px) {
+  .builder-preview {
+    padding: var(--space-3);
+  }
+}
 </style>

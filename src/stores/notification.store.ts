@@ -92,5 +92,12 @@ export const useNotificationStore = defineStore('notification', () => {
     activeNotifications.value = []
   }
 
-  return { activeNotifications, addNotification, removeNotification, clearAll, pauseAutoDismiss, resumeAutoDismiss }
+  return {
+    activeNotifications,
+    addNotification,
+    removeNotification,
+    clearAll,
+    pauseAutoDismiss,
+    resumeAutoDismiss,
+  }
 })

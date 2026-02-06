@@ -34,5 +34,14 @@ const emit = defineEmits<{
   padding: var(--space-4);
   background: var(--color-surface-muted);
   border-radius: var(--radius-md);
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+@media (max-width: 640px) {
+  .builder-preview__area {
+    padding: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
 }
 </style>

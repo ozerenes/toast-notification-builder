@@ -160,9 +160,18 @@ function handleDeletePreset(id: string) {
   border-radius: var(--radius-lg);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
   .builder-panel {
     flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-3);
+  }
+}
+
+@media (max-width: 640px) {
+  .builder-panel {
+    padding: var(--space-2);
+    gap: var(--space-3);
   }
 }
 
