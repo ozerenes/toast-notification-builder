@@ -88,6 +88,7 @@ export const useNotificationStore = defineStore('notification', () => {
       clearTimeout(dismissTimeouts.get(id)!)
     }
     dismissTimeouts.clear()
+    pauseMeta.clear()
     activeNotifications.value = []
   }
 

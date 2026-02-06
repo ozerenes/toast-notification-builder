@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import type { ActiveNotification, NotificationType } from '@/domain'
-import Icon, { type IconName } from '@/components/Icon.vue'
+import type { ActiveNotification } from '@/domain'
+import { getNotificationTypeIcon } from '@/domain'
+import Icon from '@/components/Icon.vue'
 
 const props = defineProps<{
   notification: ActiveNotification
@@ -11,13 +12,6 @@ const emit = defineEmits<{
   pause: [id: string]
   resume: [id: string]
 }>()
-
-const iconNameMap: Record<NotificationType, IconName> = {
-  success: 'check',
-  error: 'x',
-  warning: 'warning',
-  info: 'info',
-}
 
 function onClose(id: string) {
   emit('close', id)
@@ -48,7 +42,7 @@ function onHoverEnd() {
     <div class="toast-item__content">
       <Icon
         v-if="notification.showIcon"
-        :name="iconNameMap[notification.type]"
+        :name="getNotificationTypeIcon(notification.type)"
         :size="18"
         class="toast-item__icon"
         aria-hidden="true"

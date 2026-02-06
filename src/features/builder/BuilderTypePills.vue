@@ -1,14 +1,7 @@
 <script setup lang="ts">
 import { NOTIFICATION_TYPE_OPTIONS, TYPE_DEFAULT_COLORS } from '@/domain'
 import type { NotificationType } from '@/domain'
-import Icon, { type IconName } from '@/components/Icon.vue'
-
-const iconNameMap: Record<NotificationType, IconName> = {
-  success: 'check',
-  error: 'x',
-  warning: 'warning',
-  info: 'info',
-}
+import Icon from '@/components/Icon.vue'
 
 defineProps<{
   modelValue: NotificationType
@@ -43,7 +36,7 @@ const emit = defineEmits<{
         @keydown.space.prevent="emit('update:modelValue', t.value)"
       >
         <Icon
-          :name="iconNameMap[t.value]"
+          :name="t.icon"
           :size="18"
           class="builder-pill__icon"
           aria-hidden="true"

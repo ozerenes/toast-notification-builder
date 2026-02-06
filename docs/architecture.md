@@ -33,10 +33,10 @@ This document describes the high-level architecture and design decisions of the 
 ```
 src/
 ├── domain/                   # Types and constants (framework-agnostic)
-│   ├── index.ts
+│   ├── index.ts              # Barrel: domain types, options, defaults and helpers
 │   ├── notification.ts       # NotificationConfig, ActiveNotification, Preset
 │   ├── notificationDefaults.ts
-│   └── notificationOptions.ts
+│   └── notificationOptions.ts # NOTIFICATION_TYPE_OPTIONS, POSITION_OPTIONS, getNotificationTypeIcon()
 ├── infrastructure/             # Persistence adapters (injectable for tests)
 │   ├── presetStorage.ts        # PresetStorage interface + createLocalStoragePresetStorage()
 │   └── presetStorageProvider.ts # getPresetStorage(), setPresetStorageForTesting() for test injection
@@ -44,10 +44,16 @@ src/
 │   ├── id.ts                   # createId, createNotificationId, createPresetId
 │   ├── constants.ts            # COPY_FEEDBACK_MS, MAX_DURATION_SEC
 │   └── index.ts
+├── components/                 # Shared UI components
+│   └── Icon.vue                # Typed icon component backed by assets/icons
+├── assets/
+│   └── icons/                  # SVG icons + ICONS map and IconName type
 ├── stores/
 │   ├── notification.store.ts # Active toasts + timeouts
 │   ├── preset.store.ts       # Presets; uses infrastructure presetStorage
 │   └── __tests__/
+├── theme/
+│   └── themeController.ts      # initTheme(), getTheme(), setTheme(), toggleTheme()
 ├── composables/
 │   ├── index.ts
 │   ├── useToast.ts             # show, dismiss, clearAll, showSuccess/Error/…
@@ -118,6 +124,8 @@ src/
 - **Props/emits**: Typed with `defineProps<T>()` and `defineEmits<T>()`; v-model via `modelValue` / `update:modelValue` where appropriate.
 - **Builder public API**: Only `BuilderPanel`, `BuilderForm`, `BuilderPreview`, and types are exported from `@/features/builder`; inner components stay private.
 - **Design tokens**: Shared spacing, radius, font sizes, and colors in `styles/tokens.css`; components use `var(--…)` for consistency.
+- **Shared Icon component**: `components/Icon.vue` consumes `IconName` from `assets/icons` so that both Builder and Toast engine use a single, typed icon set.
+- **Theme controller**: `theme/themeController.ts` owns light/dark theme initialization and persistence via `data-theme` on `document.documentElement` and localStorage.
 
 ---
 
