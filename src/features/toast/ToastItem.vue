@@ -8,6 +8,8 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   close: [id: string]
+  pause: [id: string]
+  resume: [id: string]
 }>()
 
 const iconNameMap: Record<NotificationType, IconName> = {
@@ -20,6 +22,14 @@ const iconNameMap: Record<NotificationType, IconName> = {
 function onClose(id: string) {
   emit('close', id)
 }
+
+function onHoverStart() {
+  emit('pause', props.notification.id)
+}
+
+function onHoverEnd() {
+  emit('resume', props.notification.id)
+}
 </script>
 
 <template>
@@ -30,7 +40,10 @@ function onClose(id: string) {
     :style="{
       backgroundColor: notification.backgroundColor,
       color: notification.textColor,
+      '--toast-progress-duration': `${notification.duration}ms`,
     }"
+    @mouseenter="onHoverStart"
+    @mouseleave="onHoverEnd"
   >
     <div class="toast-item__content">
       <Icon
@@ -57,17 +70,24 @@ function onClose(id: string) {
         <Icon name="x" :size="16" class="toast-item__close-icon" aria-hidden="true" />
       </button>
     </div>
+    <div
+      v-if="notification.duration > 0"
+      class="toast-item__progress"
+      aria-hidden="true"
+    />
   </div>
 </template>
 
 <style scoped>
 .toast-item {
+  position: relative;
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-md);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   margin-bottom: var(--space-2);
   min-width: 240px;
   max-width: 360px;
+  overflow: hidden;
 }
 
 .toast-item__content {
@@ -116,5 +136,39 @@ function onClose(id: string) {
 .toast-item__close-icon {
   display: block;
   color: currentColor;
+}
+
+.toast-item__progress {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: var(--toast-progress-height);
+  background-color: var(--toast-progress-color);
+  transform-origin: left;
+  transform: scaleX(1);
+  animation-name: toast-progress-bar;
+  animation-duration: var(--toast-progress-duration, 0ms);
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.toast-item:hover .toast-item__progress {
+  animation-play-state: paused;
+}
+
+@keyframes toast-progress-bar {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast-item__progress {
+    animation: none;
+    transform: scaleX(1);
+  }
 }
 </style>

@@ -23,10 +23,20 @@ const transitionName = computed(() => getToastTransitionName(props.animation))
 
 const emit = defineEmits<{
   close: [id: string]
+  pause: [id: string]
+  resume: [id: string]
 }>()
 
 function handleClose(id: string) {
   emit('close', id)
+}
+
+function handlePause(id: string) {
+  emit('pause', id)
+}
+
+function handleResume(id: string) {
+  emit('resume', id)
 }
 </script>
 
@@ -45,6 +55,8 @@ function handleClose(id: string) {
         :key="notification.id"
         :notification="notification"
         @close="handleClose"
+        @pause="handlePause"
+        @resume="handleResume"
       />
     </TransitionGroup>
   </div>

@@ -80,6 +80,8 @@
   --toast-lift-distance: 10px;
   --toast-pop-scale: 0.85;
   --toast-duration-reduced-motion: 120ms;
+  --toast-progress-height: 2px;
+  --toast-progress-color: #f4fcff94;
 
   /* Builder UI transitions (e.g. preset list) */
   --builder-transition-duration: 0.15s;
