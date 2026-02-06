@@ -7,16 +7,16 @@
 
 ## Commands
 
-| Command | Description |
-|---------|-------------|
-| `npm install` | Install dependencies |
-| `npm run dev` | Start Vite dev server |
-| `npm run build` | Type-check + production build |
-| `npm run preview` | Preview production build locally |
-| `npm run lint` | Run ESLint |
-| `npm run format` | Format with Prettier |
-| `npm test` | Run Jest tests |
-| `npm run test:watch` | Run tests in watch mode |
+| Command              | Description                      |
+| -------------------- | -------------------------------- |
+| `npm install`        | Install dependencies             |
+| `npm run dev`        | Start Vite dev server            |
+| `npm run build`      | Type-check + production build    |
+| `npm run preview`    | Preview production build locally |
+| `npm run lint`       | Run ESLint                       |
+| `npm run format`     | Format with Prettier             |
+| `npm test`           | Run Jest tests                   |
+| `npm run test:watch` | Run tests in watch mode          |
 
 ## Project layout (summary)
 

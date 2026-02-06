@@ -12,9 +12,7 @@ const onToggleTheme = () => {
   <div class="app">
     <header class="app__header">
       <h1 class="app__heading">Toast Notification Builder</h1>
-      <button type="button" class="app__theme-toggle" @click="onToggleTheme">
-        Toggle theme
-      </button>
+      <button type="button" class="app__theme-toggle" @click="onToggleTheme">Toggle theme</button>
     </header>
     <BuilderPanel />
     <GlobalToastLayer />

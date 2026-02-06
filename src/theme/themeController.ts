@@ -1,44 +1,44 @@
-type Theme = 'light' | 'dark';
+type Theme = 'light' | 'dark'
 
-const STORAGE_KEY = 'theme';
+const STORAGE_KEY = 'theme'
 
 function getStoredTheme(): Theme | null {
-  if (typeof window === 'undefined') return null;
-  const value = window.localStorage.getItem(STORAGE_KEY);
-  return value === 'light' || value === 'dark' ? value : null;
+  if (typeof window === 'undefined') return null
+  const value = window.localStorage.getItem(STORAGE_KEY)
+  return value === 'light' || value === 'dark' ? value : null
 }
 
 function applyTheme(theme: Theme) {
-  if (typeof document === 'undefined') return;
+  if (typeof document === 'undefined') return
 
-  const root = document.documentElement;
-  root.setAttribute('data-theme', theme);
+  const root = document.documentElement
+  root.setAttribute('data-theme', theme)
 }
 
 export function setTheme(theme: Theme) {
-  applyTheme(theme);
+  applyTheme(theme)
 
   if (typeof window !== 'undefined') {
-    window.localStorage.setItem(STORAGE_KEY, theme);
+    window.localStorage.setItem(STORAGE_KEY, theme)
   }
 }
 
 export function initTheme() {
-  const stored = getStoredTheme();
-  const theme = stored ?? 'light';
-  applyTheme(theme);
+  const stored = getStoredTheme()
+  const theme = stored ?? 'light'
+  applyTheme(theme)
   if (typeof window !== 'undefined') {
-    window.localStorage.setItem(STORAGE_KEY, theme);
+    window.localStorage.setItem(STORAGE_KEY, theme)
   }
 }
 
 export function toggleTheme(): Theme {
   const current =
     (typeof document !== 'undefined' &&
-      (document.documentElement.getAttribute('data-theme') as Theme | null)) || 'light';
+      (document.documentElement.getAttribute('data-theme') as Theme | null)) ||
+    'light'
 
-  const next: Theme = current === 'dark' ? 'light' : 'dark';
-  setTheme(next);
-  return next;
+  const next: Theme = current === 'dark' ? 'light' : 'dark'
+  setTheme(next)
+  return next
 }
-

@@ -18,7 +18,8 @@
  */
 .toast-anim-fade-enter-active,
 .toast-anim-fade-leave-active {
-  transition: opacity var(--toast-duration-enter-short) var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1));
+  transition: opacity var(--toast-duration-enter-short)
+    var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1));
 }
 
 .toast-anim-fade-enter-from,
@@ -32,7 +33,8 @@
 }
 
 .toast-anim-fade-move {
-  transition: transform var(--toast-duration-enter-short) var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1));
+  transition: transform var(--toast-duration-enter-short)
+    var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1));
 }
 
 /* Slide
@@ -63,7 +65,8 @@
 }
 
 .toast-anim-slide-move {
-  transition: transform var(--toast-duration-enter) var(--toast-ease-out, cubic-bezier(0.2, 0.8, 0.4, 1));
+  transition: transform var(--toast-duration-enter)
+    var(--toast-ease-out, cubic-bezier(0.2, 0.8, 0.4, 1));
 }
 
 /* Scale
@@ -94,7 +97,8 @@
 }
 
 .toast-anim-scale-move {
-  transition: transform var(--toast-duration-enter) var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1));
+  transition: transform var(--toast-duration-enter)
+    var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1));
 }
 
 /* Bounce
@@ -102,15 +106,18 @@
  * - Implemented with keyframes for better control.
  */
 .toast-anim-bounce-enter-active {
-  animation: toast-anim-bounce-in var(--toast-duration-enter-long) var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1)) both;
+  animation: toast-anim-bounce-in var(--toast-duration-enter-long)
+    var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1)) both;
 }
 
 .toast-anim-bounce-leave-active {
-  animation: toast-anim-bounce-out var(--toast-duration-leave) var(--toast-ease-in, cubic-bezier(0.4, 0, 1, 1)) both;
+  animation: toast-anim-bounce-out var(--toast-duration-leave)
+    var(--toast-ease-in, cubic-bezier(0.4, 0, 1, 1)) both;
 }
 
 .toast-anim-bounce-move {
-  transition: transform var(--toast-duration-move) var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1));
+  transition: transform var(--toast-duration-move)
+    var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1));
 }
 
 @keyframes toast-anim-bounce-in {
@@ -157,15 +164,18 @@
  * - Uses perspective + rotateX within transform only.
  */
 .toast-anim-flip-enter-active {
-  animation: toast-anim-flip-in var(--toast-duration-enter-long) var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1)) both;
+  animation: toast-anim-flip-in var(--toast-duration-enter-long)
+    var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1)) both;
 }
 
 .toast-anim-flip-leave-active {
-  animation: toast-anim-flip-out var(--toast-duration-leave) var(--toast-ease-in, cubic-bezier(0.4, 0, 1, 1)) both;
+  animation: toast-anim-flip-out var(--toast-duration-leave)
+    var(--toast-ease-in, cubic-bezier(0.4, 0, 1, 1)) both;
 }
 
 .toast-anim-flip-move {
-  transition: transform var(--toast-duration-move) var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1));
+  transition: transform var(--toast-duration-move)
+    var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1));
 }
 
 @keyframes toast-anim-flip-in {
@@ -228,7 +238,8 @@
   .toast-anim-flip-enter-active,
   .toast-anim-flip-leave-active {
     animation: none;
-    transition: opacity var(--toast-duration-reduced-motion) var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1));
+    transition: opacity var(--toast-duration-reduced-motion)
+      var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1));
   }
 
   .toast-anim-fade-enter-from,
