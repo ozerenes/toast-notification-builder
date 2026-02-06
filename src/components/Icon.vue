@@ -2,6 +2,8 @@
 import { computed } from 'vue'
 import { ICONS, type IconName } from '@/assets/icons'
 
+defineOptions({ name: 'AppIcon' })
+
 export type { IconName }
 
 const props = withDefaults(
