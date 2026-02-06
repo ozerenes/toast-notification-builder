@@ -20,6 +20,16 @@ export const NOTIFICATION_TYPE_OPTIONS: NotificationTypeOption[] = [
   { value: 'info', label: 'Info', icon: 'info' },
 ]
 
+/**
+ * Returns the icon name associated with a given notification type.
+ * Kept in the domain layer so both Builder and Toast UI share a single mapping.
+ */
+export function getNotificationTypeIcon(type: NotificationType): IconName {
+  const option = NOTIFICATION_TYPE_OPTIONS.find((opt) => opt.value === type)
+  // Fallback to "info" to avoid rendering issues if an unknown type sneaks in.
+  return option?.icon ?? 'info'
+}
+
 export const POSITION_OPTIONS: PositionOption[] = [
   { value: 'top-left', label: 'TL', name: 'Top Left' },
   { value: 'top-center', label: 'TC', name: 'Top Center' },
