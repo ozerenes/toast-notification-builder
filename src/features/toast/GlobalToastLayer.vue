@@ -34,6 +34,14 @@ const animationByPosition = computed(() => {
   }
   return map
 })
+
+function handlePause(id: string) {
+  store.pauseAutoDismiss(id)
+}
+
+function handleResume(id: string) {
+  store.resumeAutoDismiss(id)
+}
 </script>
 
 <template>
@@ -44,5 +52,7 @@ const animationByPosition = computed(() => {
     :position="opt.value"
     :animation="animationByPosition.get(opt.value) ?? DEFAULT_ANIMATION"
     @close="store.removeNotification"
+    @pause="handlePause"
+    @resume="handleResume"
   />
 </template>
