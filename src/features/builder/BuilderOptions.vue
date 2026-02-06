@@ -36,10 +36,6 @@ const emit = defineEmits<{
 </template>
 
 <style scoped>
-.builder-group--options {
-  gap: var(--space-4);
-}
-
 .builder-group--options .builder-checkbox-wrap:last-of-type {
   margin-bottom: 0;
 }
