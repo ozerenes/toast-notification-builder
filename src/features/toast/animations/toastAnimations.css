@@ -53,7 +53,7 @@
 
 .toast-anim-slide-leave-to {
   opacity: 0;
-  transform: translateX(24px);
+  transform: translateX(var(--toast-slide-distance));
 }
 
 .toast-anim-slide-enter-to,
@@ -73,18 +73,18 @@
 .toast-anim-scale-enter-active,
 .toast-anim-scale-leave-active {
   transition:
-    opacity var(--toast-duration-enter) cubic-bezier(0.16, 1, 0.3, 1),
-    transform var(--toast-duration-enter) cubic-bezier(0.16, 1, 0.3, 1);
+    opacity var(--toast-duration-enter) var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1)),
+    transform var(--toast-duration-enter) var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1));
 }
 
 .toast-anim-scale-enter-from {
   opacity: 0;
-  transform: translateY(6px) scale(0.88);
+  transform: translateY(10px) scale(0.82);
 }
 
 .toast-anim-scale-leave-to {
   opacity: 0;
-  transform: translateY(-4px) scale(0.9);
+  transform: translateY(-8px) scale(0.92);
 }
 
 .toast-anim-scale-enter-to,
@@ -94,7 +94,7 @@
 }
 
 .toast-anim-scale-move {
-  transition: transform var(--toast-duration-enter) cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform var(--toast-duration-enter) var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1));
 }
 
 /* Bounce
@@ -102,24 +102,11 @@
  * - Implemented with keyframes for better control.
  */
 .toast-anim-bounce-enter-active {
-  animation: toast-anim-bounce-in var(--toast-duration-enter-long) var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1))
-    both;
+  animation: toast-anim-bounce-in var(--toast-duration-enter-long) var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1)) both;
 }
 
 .toast-anim-bounce-leave-active {
   animation: toast-anim-bounce-out var(--toast-duration-leave) var(--toast-ease-in, cubic-bezier(0.4, 0, 1, 1)) both;
-}
-
-.toast-anim-bounce-enter-from,
-.toast-anim-bounce-leave-to {
-  opacity: 0;
-  transform: translateY(18px) scale(0.97);
-}
-
-.toast-anim-bounce-enter-to,
-.toast-anim-bounce-leave-from {
-  opacity: 1;
-  transform: translateY(0) scale(1);
 }
 
 .toast-anim-bounce-move {
@@ -129,12 +116,17 @@
 @keyframes toast-anim-bounce-in {
   0% {
     opacity: 0;
-    transform: translateY(18px) scale(0.9);
+    transform: translateY(30px) scale(0.8);
   }
 
-  60% {
+  45% {
     opacity: 1;
-    transform: translateY(-4px) scale(1.02);
+    transform: translateY(-16px) scale(1.12);
+  }
+
+  80% {
+    opacity: 1;
+    transform: translateY(6px) scale(0.94);
   }
 
   100% {
@@ -149,14 +141,14 @@
     transform: translateY(0) scale(1);
   }
 
-  40% {
+  30% {
     opacity: 1;
-    transform: translateY(-4px) scale(0.98);
+    transform: translateY(-12px) scale(0.94);
   }
 
   100% {
     opacity: 0;
-    transform: translateY(18px) scale(0.9);
+    transform: translateY(30px) scale(0.8);
   }
 }
 
@@ -172,18 +164,6 @@
   animation: toast-anim-flip-out var(--toast-duration-leave) var(--toast-ease-in, cubic-bezier(0.4, 0, 1, 1)) both;
 }
 
-.toast-anim-flip-enter-from,
-.toast-anim-flip-leave-to {
-  opacity: 0;
-  transform: perspective(900px) rotateX(-35deg) translateY(8px);
-}
-
-.toast-anim-flip-enter-to,
-.toast-anim-flip-leave-from {
-  opacity: 1;
-  transform: perspective(900px) rotateX(0deg) translateY(0);
-}
-
 .toast-anim-flip-move {
   transition: transform var(--toast-duration-move) var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1));
 }
@@ -191,34 +171,39 @@
 @keyframes toast-anim-flip-in {
   0% {
     opacity: 0;
-    transform: perspective(900px) rotateX(-45deg) translateY(10px);
+    transform: perspective(900px) rotateX(-120deg);
   }
 
   60% {
     opacity: 1;
-    transform: perspective(900px) rotateX(8deg) translateY(0);
+    transform: perspective(900px) rotateX(18deg);
+  }
+
+  80% {
+    opacity: 1;
+    transform: perspective(900px) rotateX(-6deg);
   }
 
   100% {
     opacity: 1;
-    transform: perspective(900px) rotateX(0deg) translateY(0);
+    transform: perspective(900px) rotateX(0deg);
   }
 }
 
 @keyframes toast-anim-flip-out {
   0% {
     opacity: 1;
-    transform: perspective(900px) rotateX(0deg) translateY(0);
+    transform: perspective(900px) rotateX(0deg);
   }
 
   40% {
     opacity: 1;
-    transform: perspective(900px) rotateX(8deg) translateY(0);
+    transform: perspective(900px) rotateX(-10deg);
   }
 
   100% {
     opacity: 0;
-    transform: perspective(900px) rotateX(35deg) translateY(10px);
+    transform: perspective(900px) rotateX(90deg);
   }
 }
 
@@ -232,7 +217,9 @@
   .toast-anim-slide-move,
   .toast-anim-scale-enter-active,
   .toast-anim-scale-leave-active,
-  .toast-anim-scale-move {
+  .toast-anim-scale-move,
+  .toast-anim-bounce-move,
+  .toast-anim-flip-move {
     transition-duration: var(--toast-duration-reduced-motion);
   }
 
@@ -240,7 +227,8 @@
   .toast-anim-bounce-leave-active,
   .toast-anim-flip-enter-active,
   .toast-anim-flip-leave-active {
-    animation-duration: var(--toast-duration-reduced-motion);
+    animation: none;
+    transition: opacity var(--toast-duration-reduced-motion) var(--toast-ease-out, cubic-bezier(0.22, 0.61, 0.36, 1));
   }
 
   .toast-anim-fade-enter-from,
