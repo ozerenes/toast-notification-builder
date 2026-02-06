@@ -32,6 +32,12 @@ export function initTheme() {
   }
 }
 
+export function getTheme(): Theme {
+  if (typeof document === 'undefined') return 'light'
+  const value = document.documentElement.getAttribute('data-theme') as Theme | null
+  return value === 'dark' || value === 'light' ? value : 'light'
+}
+
 export function toggleTheme(): Theme {
   const current =
     (typeof document !== 'undefined' &&

@@ -1,9 +1,10 @@
+import { IconName } from '@/assets/icons'
 import type { NotificationType, Position } from './notification'
 
 export interface NotificationTypeOption {
   value: NotificationType
   label: string
-  icon: string
+  icon: IconName
 }
 
 export interface PositionOption {
@@ -13,10 +14,10 @@ export interface PositionOption {
 }
 
 export const NOTIFICATION_TYPE_OPTIONS: NotificationTypeOption[] = [
-  { value: 'success', label: 'Success', icon: '✓' },
-  { value: 'error', label: 'Error', icon: '✕' },
-  { value: 'warning', label: 'Warning', icon: '!' },
-  { value: 'info', label: 'Info', icon: 'i' },
+  { value: 'success', label: 'Success', icon: 'check' },
+  { value: 'error', label: 'Error', icon: 'x' },
+  { value: 'warning', label: 'Warning', icon: 'warning' },
+  { value: 'info', label: 'Info', icon: 'info' },
 ]
 
 export const POSITION_OPTIONS: PositionOption[] = [

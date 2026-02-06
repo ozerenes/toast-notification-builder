@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import type { ActiveNotification, NotificationType } from '@/domain'
+import Icon, { type IconName } from '@/components/Icon.vue'
 
 const props = defineProps<{
   notification: ActiveNotification
@@ -10,14 +10,12 @@ const emit = defineEmits<{
   close: [id: string]
 }>()
 
-const iconMap: Record<NotificationType, string> = {
-  success: '✓',
-  error: '✕',
-  warning: '!',
-  info: 'i',
+const iconNameMap: Record<NotificationType, IconName> = {
+  success: 'check',
+  error: 'x',
+  warning: 'warning',
+  info: 'info',
 }
-
-const icon = computed(() => iconMap[props.notification.type])
 
 function onClose(id: string) {
   emit('close', id)
@@ -35,9 +33,13 @@ function onClose(id: string) {
     }"
   >
     <div class="toast-item__content">
-      <span v-if="notification.showIcon" class="toast-item__icon" aria-hidden="true">
-        {{ icon }}
-      </span>
+      <Icon
+        v-if="notification.showIcon"
+        :name="iconNameMap[notification.type]"
+        :size="18"
+        class="toast-item__icon"
+        aria-hidden="true"
+      />
       <div class="toast-item__text">
         <span class="toast-item__title">{{ notification.title }}</span>
         <span class="toast-item__message">{{ notification.message }}</span>
@@ -52,7 +54,7 @@ function onClose(id: string) {
         }"
         @click="onClose(notification.id)"
       >
-        ×
+        <Icon name="x" :size="16" class="toast-item__close-icon" aria-hidden="true" />
       </button>
     </div>
   </div>
@@ -76,8 +78,7 @@ function onClose(id: string) {
 
 .toast-item__icon {
   flex-shrink: 0;
-  font-size: var(--font-size-base);
-  line-height: var(--line-height-tight);
+  color: currentColor;
 }
 
 .toast-item__text {
@@ -110,5 +111,10 @@ function onClose(id: string) {
 
 .toast-item__close:hover {
   opacity: 0.8;
+}
+
+.toast-item__close-icon {
+  display: block;
+  color: currentColor;
 }
 </style>

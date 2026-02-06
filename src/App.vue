@@ -1,18 +1,35 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { BuilderPanel } from '@/features/builder'
 import { GlobalToastLayer } from '@/features/toast'
-import { toggleTheme } from '@/theme/themeController'
+import { getTheme, toggleTheme } from '@/theme/themeController'
+import Icon from '@/components/Icon.vue'
+
+const theme = ref<'light' | 'dark'>(getTheme())
+
+onMounted(() => {
+  theme.value = getTheme()
+})
 
 const onToggleTheme = () => {
-  toggleTheme()
+  theme.value = toggleTheme()
 }
+
+const isDarkTheme = () => theme.value === 'dark'
 </script>
 
 <template>
   <div class="app">
     <header class="app__header">
       <h1 class="app__heading">Toast Notification Builder</h1>
-      <button type="button" class="app__theme-toggle" @click="onToggleTheme">Toggle theme</button>
+      <button type="button" class="app__theme-toggle" @click="onToggleTheme">
+        <Icon
+          :name="isDarkTheme() ? 'sun' : 'moon'"
+          :size="18"
+          class="app__theme-icon"
+          aria-hidden="true"
+        />
+      </button>
     </header>
     <BuilderPanel />
     <GlobalToastLayer />
@@ -42,12 +59,16 @@ const onToggleTheme = () => {
 }
 
 .app__theme-toggle {
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
   background-color: var(--color-surface-muted);
   color: var(--color-text);
-  padding: var(--space-1) var(--space-3);
-  font-size: var(--font-size-xs);
+  padding: var(--space-2);
   cursor: pointer;
+}
+
+.app__theme-icon {
+  display: block;
+  color: inherit;
 }
 </style>

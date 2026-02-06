@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import { NOTIFICATION_TYPE_OPTIONS, TYPE_DEFAULT_COLORS } from '@/domain'
 import type { NotificationType } from '@/domain'
+import Icon, { type IconName } from '@/components/Icon.vue'
+
+const iconNameMap: Record<NotificationType, IconName> = {
+  success: 'check',
+  error: 'x',
+  warning: 'warning',
+  info: 'info',
+}
 
 defineProps<{
   modelValue: NotificationType
@@ -34,7 +42,19 @@ const emit = defineEmits<{
         @keydown.enter.prevent="emit('update:modelValue', t.value)"
         @keydown.space.prevent="emit('update:modelValue', t.value)"
       >
-        <span class="builder-pill__icon" aria-hidden="true">{{ t.icon }}</span>
+        <Icon
+          :name="iconNameMap[t.value]"
+          :size="18"
+          class="builder-pill__icon"
+          aria-hidden="true"
+          :style="
+            modelValue !== t.value
+              ? {
+                  color: TYPE_DEFAULT_COLORS[t.value].backgroundColor,
+                }
+              : undefined
+          "
+        />
         {{ t.label }}
       </button>
     </div>
@@ -80,6 +100,6 @@ const emit = defineEmits<{
 }
 
 .builder-pill__icon {
-  margin-right: var(--space-1);
+  color: currentColor;
 }
 </style>
